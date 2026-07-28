@@ -1,5 +1,7 @@
 # HFOVCalc
 
+![HFOV](img/HFOV.jpg)
+
 Você já deve ter ouvido fotógrafos e filmakers dizendo frases como: "Coloca uma 35mm aqui" ou "Essa 24mm no full frame equivale a uma 16mm no Super 35".
 
 Mas você já parou para pensar de onde vem o número do ângulo que essa lente enxerga? E mais importante: quantos metros de largura você vai enquadrar a uma certa distância?
@@ -27,6 +29,8 @@ Imagine que você pegou um sensor menor e o esticou até que sua diagonal atingi
 Essa separação é necessária para os cálculos, pois, caso a distância focal dada for o equivalente a 35mm, você irá considerar a largura do sensor como 36mm. Por outro lado, se você tem o valor da distância focal real, irá valer-se da largura real do sensor.
 
 Agora que esclarecemos esses pontos, vamos pensar no triângulo retângulo que é formado dentro da câmera, entre a distância focal e metade do sensor. Isso é o que vemos na ilustração abaixo.
+
+
 
 Observe que:
 
