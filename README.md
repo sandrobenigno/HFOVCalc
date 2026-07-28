@@ -30,7 +30,7 @@ Essa separação é necessária para os cálculos, pois, caso a distância focal
 
 Agora que esclarecemos esses pontos, vamos pensar no triângulo retângulo que é formado dentro da câmera, entre a distância focal e metade do sensor. Isso é o que vemos na ilustração abaixo.
 
-
+![Triangulo Interno](img/Triangulo.jpg)
 
 Observe que:
 
@@ -100,6 +100,8 @@ O HFW (Horizontal Field Width) é a largura física da cena capturada, medida em
 A Fórmula do HFW
 
 Para calcular o HFW, usamos um triângulo retângulo formado pela distância da câmera até o objeto e a metade da largura da cena:
+
+![Triangulo da Cena](img/Triangulo_HFOV.jpg)
 
 Onde:
 
