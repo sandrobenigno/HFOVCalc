@@ -30,23 +30,32 @@ Agora que esclarecemos esses pontos, vamos pensar no triângulo retângulo que �
 
 Observe que:
 
+$$
 {x} = \frac{\text{Largura do Sensor}}{2} \gets \text{ É o cateto oposto ao ângulo}\\
-{}\\
+$$
+$$
 {z} = \text{Distância Focal} \gets \text{É o cateto adjacente ao ângulo}
+$$
 
 Como a tangente é o cateto oposto sobre o adjacente, o ângulo pode ser calculado pelo inverso da tangente:
 
-\alpha = \arctan \bigg( \frac{x}{z} \bigg)\\
+$$
+{\alpha} = \arctan \left( \frac{x}{z} \right)
+$$
 
 E sendo o HFOV o dobro desse ângulo, podemos calcular direto como:
 
+$$
 \text{HFOV} = 2 \times \arctan\bigg( \frac{x}{z} \bigg)
+$$
 
 Essa é a forma geométrica mais direta e simples. Ela é a base para se calcular o ângulo, tanto para câmeras com lentes e sensores Full Frame quanto para lentes e sensores menores. Como já dissemos, basta usar valores coerentes para x e z , ou seja, ambos reais ou ambos equivalentes. É o que veremos em seguida, quando utilizamos o fator de corte para equilibrar os dois termos.
 
 Para calcular o HFOV a partir da equivalência de 35mm por fator de corte da câmera, usamos:
 
-\text{HFOV} = 2 \times \arctan\left( \frac{18}{\text{Distância Focal} \times \text{Fator de Corte}} \right)
+$$
+{\text{HFOV}} = 2 \times \arctan\left( \frac{18}{\text{Distância Focal} \times \text{Fator de Corte}} \right)
+$$
 
 Onde:
 
@@ -60,15 +69,23 @@ Dizemos que em alguns casos o cálculo pode ser apenas aproximado, porque o fato
 
 Reforçando, isso ocorre porque o fator de corte horizontal muda quando o aspecto do sensor não é 3:2 como são os de 35mm. Ou seja, os fatores de corte diagonal, horizontal ou mesmo o vertical serão diferentes entre si, quando o aspecto é 4:3, 16:9, etc. Quando esse for o caso, e você quiser trabalhar com precisão, calcule primeiro o fator de corte horizontal (CH), em função do fator diagonal dado (CD) e do aspecto do sensor dado (a:b), aplicando os seus respectivos valores na fórmula abaixo:
 
+$$
 C_H = C_D \times \text{Multiplicador}\\
-{}\\
+$$
+$$
 C_H = C_D \times \left(\frac{36}{43,266} \times \frac{\sqrt{a^2 + b^2}}{a}\right)
+$$
 
 Após calculado o Fator de Corte Horizontal, pode inseri-lo na fórmula original do HFOV. Todos os dados estarão geometricamente precisos.
 
 Para facilitar, segue abaixo os valores mais comuns de aspecto, com o multiplicador já calculado, para obter o Fator de Corte Horizontal:
 
-AspectoMultiplicador3:21.0000 (ou seja, não precisa corrigir)4:31.039916:90.9545
+| Aspecto | Multiplicador | Observação |
+|---------|---------------|------------|
+| 3:2     | 1.0000        | não precisa corrigir |
+| 4:3     | 1.0399        |            |
+| 16:9    | 0.9545        |            |
+
 
 💡 Todas as fórmulas poderiam ser utilizadas também para calcular o ângulo de abertura vertical (VFOV). Bastaria substituir x por y, mantendo z. Onde y seria a metade da altura do sensor, em vez da largura. Mas atenção a um erro comum: você não deve calcular o ângulo vertical aplicando a proporção do aspecto direto no ângulo horizontal (por exemplo, achar que o VFOV é 3/4 do HFOV em um sensor 4:3). Como a relação envolve trigonometria, os ângulos não mudam de forma linear. Por outro lado, se você aplicar a proporção do aspecto diretamente no tamanho físico da cena capturada, a regra funciona perfeitamente! Em um sensor 4:3, a altura real da cena será exatamente 3/4 da largura. E é justamente esse cálculo da largura física da cena que nos leva ao nosso próximo conceito essencial para o set: o HFW.
 
@@ -90,13 +107,18 @@ Cateto Oposto ao ângulo: A metade da largura da cena (HFW/2).
 
 Usando a definição da tangente:
 
+$$
 \tan\left(\frac{\text{HFOV}}{2}\right) = \frac{\text{HFW}/2}{D}
+$$
 
 Isolando o HFW:
 
+$$
 \frac{\text{HFW}}{2} = D \times \tan\left(\frac{\text{HFOV}}{2}\right)
-
+$$
+$$
 \text{HFW} = 2 \times D \times \tan\left(\frac{\text{HFOV}}{2}\right)
+$$
 
 🎯 Exemplo Prático
 
@@ -104,15 +126,21 @@ Situação: Você está com uma lente cuja equivalência em 35mm é de 50mm, e q
 
 Passo 1: Vamos calcular o HFOV. Se o valor de distância focal dado é de 50mm em equivalência a 35mm, a conversão para valores em Full Frame já foi feita. Portanto, a largura do sensor será 36mm. Pois, lembre-se: um filme de 35mm tem a largura do fotograma igual a 36mm. Nós utilizamos a metade do sensor para o cálculo, ou seja, 18mm. Assim, teremos:
 
-\text{HFOV} = 2 \times \arctan\left( \frac{18}{50} \right) \to 2 \times 19,79º = 39,6º
+$$
+\text{HFOV} = 2 \times \arctan\left( \frac{18}{50} \right) \to 2 \times 19,79° = 39,6°
+$$
 
-Passo 2: Para o cálculo do HFW, tomaremos a metade do HFOV (exatamente o semiângulo 19,79º encontrado no meio do cálculo anterior):
+Passo 2: Para o cálculo do HFW, tomaremos a metade do HFOV (exatamente o semiângulo 19,7° encontrado no meio do cálculo anterior):
 
-\frac{39,6º}{2} = 19,79º
+$$
+\frac{39,6°}{2} = 19,79°
+$$
 
 Passo 3: Calculamos a largura (HFW) usando a tangente desse ângulo e a distância de 4 metros:
 
-\text{HFW} = 2 \times 4 \times \tan(19,79º) \to 8 \times 0,36 = 2,87 \text{ metros}
+$$
+\text{HFW} = 2 \times 4 \times \tan(19,79°) \to 8 \times 0,36 = 2,87 \text{ metros}
+$$
 
 Resultado: A 4 metros de distância, sua cena enquadrada terá uma largura física (HFW) de aproximadamente 2,87 metros.
 
@@ -120,6 +148,16 @@ Resultado: A 4 metros de distância, sua cena enquadrada terá uma largura físi
 
 O Que Você Quer SaberFórmulaUnidadeÂngulo horizontal da lente (HFOV)2 × arctan( Metade da Largura do Sensor / Distância Focal )Graus (°)Largura física da cena (HFW)2 × D × tan( HFOV / 2 )Metros (m)
 
-📝 Tabela de Sensores
+📝 Tabela Básica de Sensores
 
-TipoLargura (mm)Altura (mm)AspectoFator de Corte1/10"1.280.964:327.041/8" (Sony DCR-SR68, DCR-DVD110E)1.601.204:321.651/6" (Panasonic SDR-H20, SDR-H200)2.401.804:314.141/4"3.602.704:310.811/3.6" (Nokia Lumia 720)4.003.004:38.651/3.2" (iPhone 5)4.543.424:37.611/3.09" Sony EXMOR IMX3514.663.54:37.43Standard 8 mm film frame4.83.511:87.281/3" (iPhone 5S, iPhone 6, LG G3)4.803.604:37.211/2.88" OmniVision OV50D5.053.804:36.841/2.76" Samsung ISOCELL JN15.243.934:36.611/2.7" Fujifilm 2800 Zoom5.374.044:36.44Super 8 mm film frame5.794.0113:96.151/2.5" (Nokia Lumia 1520, Sony Cyber-shot DSC-T5, iPhone XS)5.764.294:36.021/2.3" (Pentax Q, Sony Cyber-shot DSC-W330, GoPro HERO3, Panasonic HX-A500, Google Pixel/Pixel+, DJI Phantom 3/Mavic 2 Zoom), Nikon P1000/P9006.174.554:35.641/2.3" Sony EXMOR IMX2206.304.724:35.491/2" (Fujifilm HS30EXR, Xiaomi Mi 9, OnePlus 7, Espros EPC 660, DJI Mavic Air 2)6.404.804:35.411/1.8" (Nokia N8) (Olympus C-5050, C-5060, C-7070)7.185.324:34.841/1.73" Sony EXMOR IMX6867.45.554:34.681/1.7" (Pentax Q7, Canon G10, G15, Huawei P20 Pro, Huawei P30 Pro, Huawei Mate 20 Pro)7.605.704:34.551/1.6" (Fujifilm F200EXR)8.086.014:34.301/1.55" OmniVision OV50E8.296.224:34.172/3" (Nokia Lumia 1020, Fujifilm X10, X20, XF1)8.806.604:33.931/1.4" Sony LYTIA LYT-8089.186.884:33.771/1.33" (Samsung Galaxy S20 Ultra)9.67.24:33.611/1.28" OmniVision OVB0B10.077.564:33.44Standard 16 mm film frame10.267.4911:83.411/1.2" (Nokia 808 PureView)10.678.004:33.241/1.12" (Xiaomi Mi 11 Ultra)11.428.574:33.03Blackmagic Pocket Cinema Camera & Blackmagic Studio Camera12.487.0216:93.02Super 16 mm film frame12.527.415:32.971" (Nikon CX, Sony RX100, Sony RX10, Sony ZV-1, Samsung NX Mini)13.208.803:22.721" Digital Bolex d1612.809.604:32.701" (Xiaomi 12S Ultra)13.119.834:32.641" Kodak DCS-20014.009.303:22.571.1" Sony IMX25314.1010.3011:82.47Blackmagic Cinema Camera EF15.818.8816:92.38Blackmagic Pocket Cinema Camera 4K18.961019:102.01Four Thirds, Micro Four Thirds ("4/3", "m4/3")17.30134:32.00Blackmagic Production Camera/URSA/URSA Mini 4K21.1211.8816:91.791.5" Canon PowerShot G1 X Mark II18.70144:31.85"35mm" 2 Perf Techniscope21.959.357:31.81original Sigma Foveon X320.7013.803:21.74RED DRAGON 4.5K (RAVEN)23.0010.8019:91.66"Super 35mm" 2 Perf24.899.358:31.62Canon EF-S, APS-C22.3014.903:21.61Standard 35 mm film frame (movie)22.016.011:81.59Blackmagic URSA Mini/Pro 4.6K25.3414.2516:91.49APS-C (Sony α, Sony E, Nikon DX, Pentax K, Samsung NX, Fuji X)23.6–23.715.603:21.52–1.54Super 35 mm film 3 perf24.8913.869:51.51RED DRAGON 5K S3525.613.517:91.49Super 35mm film 4 perf24.8918.664:31.39Canon APS-H27.9018.603:21.29ARRI ALEV III (ALEXA SXT, ALEXA MINI, AMIRA), RED HELIUM 8K S3529.9015.7717:91.28RED DRAGON 6K S3530.715.835:181.2535 mm film full-frame36243:21.0ARRI ALEXA LF36.7025.5413:90.96RED Dragon/Monstro/V-Raptor 8K VV, Panavision Millenium DXL/DXL240.9621.6017:90.93Leica S45303:20.80Pentax 645D, Hasselblad X1D-50c, Hasselblad H6D-50c, CFV-50c, Fujifilm GFX 50S43.832.94:30.79Standard 65/70 mm film frame52.4823.017:30.76ARRI ALEXA 6554.1225.5819:90.72Kodak KAF 39000 CCD4936.804:30.71Leaf AFi 10563614:90.65Medium-format (Hasselblad H5D-60c, Hasselblad H6D-100c)53.740.24:30.65Phase One P 65+, IQ160, IQ18053.9040.404:30.64Medium-format 6×4.5 cm (also called 645 format)42563:40.614Medium-format 6×6 cm56561:10.538IMAX film frame70.4152.634:30.49Medium-format 6×7 cm70565:40.469Medium-format 6×8 cm76563:40.458Medium-format 6×9 cm84563:20.43Large-format film 4×5 inch121975:40.29Large-format film 5×7 inch1781277:50.238Large-format film 8×10 inch2542035:40.143
+| Tipo | Largura (mm) | Altura (mm) | Aspecto | Fator de Corte |
+|------|--------------|-------------|---------|----------------|
+| 1/10" | 1.28 | 0.96 | 4:3 | 27.04 |
+| 1/8" (Sony DCR-SR68) | 1.60 | 1.20 | 4:3 | 21.65 |
+| 1/6" (Panasonic SDR-H20) | 2.40 | 1.80 | 4:3 | 14.14 |
+| 1/4" | 3.60 | 2.70 | 4:3 | 10.81 |
+| 1/3.6" (Nokia Lumia 720) | 4.00 | 3.00 | 4:3 | 8.65 |
+| 1/3.2" (iPhone 5) | 4.54 | 3.42 | 4:3 | 7.61 |
+| **35 mm film full-frame** | **36.00** | **24.00** | **3:2** | **1.00** |
+| IMAX film frame | 70.41 | 52.63 | 4:3 | 0.49 |
+| Large-format 8×10 inch | 254.00 | 203.00 | 5:4 | 0.143 |
