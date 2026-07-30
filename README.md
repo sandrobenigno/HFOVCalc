@@ -1,5 +1,7 @@
 # HFOVCalc
 
+## Sensor, Ângulo e Enquadramento Matemático
+
 ![HFOV](img/HFOV.jpg)
 
 Você já deve ter ouvido fotógrafos e filmakers dizendo frases como: "Coloca uma 35mm aqui" ou "Essa 24mm no full frame equivale a uma 16mm no Super 35".
