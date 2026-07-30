@@ -154,7 +154,7 @@ Resultado: A 4 metros de distância, sua cena enquadrada terá uma largura físi
 
 ##
 
-🧠 Resumo para Lembrar
+## 🧠 Resumo para Lembrar
 
 | O Que Você Quer Saber | Fórmula | Unidade |
 | --------------------- | ------- | ------- |
@@ -163,7 +163,7 @@ Resultado: A 4 metros de distância, sua cena enquadrada terá uma largura físi
 
 ##
 
-📝 Tabela Básica de Sensores
+## 📝 Tabela Básica de Sensores
 
 | Tipo | Largura (mm) | Altura (mm) | Aspecto | Fator de Corte |
 |------|--------------|-------------|---------|----------------|
