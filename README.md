@@ -152,7 +152,6 @@ $$
 
 Resultado: A 4 metros de distância, sua cena enquadrada terá uma largura física (HFW) de aproximadamente 2,87 metros.
 
-##
 
 ## 🧠 Resumo para Lembrar
 
@@ -161,7 +160,6 @@ Resultado: A 4 metros de distância, sua cena enquadrada terá uma largura físi
 | **Ângulo horizontal da lente** | (HFOV)2 × arctan( Metade da Largura do Sensor / Distância Focal ) | Graus (°) |
 | **Largura física da cena** | (HFW)2 × D × tan( HFOV / 2 ) | Metros (m) |
 
-##
 
 ## 📝 Tabela Básica de Sensores
 
