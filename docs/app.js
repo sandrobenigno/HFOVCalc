@@ -50,8 +50,6 @@ const elTargetDistSlider = document.getElementById('target-dist-slider');
 
 const elHfovVal = document.getElementById('hfov-val');
 const elVfovVal = document.getElementById('vfov-val');
-const elHudHfovVal = document.getElementById('hud-hfov-val');
-const elHudVfovVal = document.getElementById('hud-vfov-val');
 const elHfwVal = document.getElementById('hfw-val');
 const elVfwVal = document.getElementById('vfw-val');
 const elTargetDLbls = document.querySelectorAll('.target-d-lbl');
@@ -228,8 +226,6 @@ function updateCalculations() {
 
     elHfovVal.textContent = hfovDeg.toFixed(1) + "°";
     elVfovVal.textContent = vfovDeg.toFixed(1) + "°";
-    if (elHudHfovVal) elHudHfovVal.textContent = hfovDeg.toFixed(1) + "°";
-    if (elHudVfovVal) elHudVfovVal.textContent = vfovDeg.toFixed(1) + "°";
 
     // 4. Calculate HFW and VFW at Distance D
     const d = parseFloat(elTargetDist.value);
