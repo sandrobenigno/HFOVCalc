@@ -433,7 +433,7 @@ function updateRoom3D() {
     
     // Wireframe container
     const edges = new THREE.EdgesGeometry(roomGeo);
-    roomWireframe = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0x475569, linewidth: 2 }));
+    roomWireframe = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0x64748b, linewidth: 3 }));
     roomWireframe.position.set(0, h / 2, l / 2);
     scene.add(roomWireframe);
 
@@ -441,8 +441,8 @@ function updateRoom3D() {
 
     // Floor Grid Helper
     if (isGridVisible) {
-        gridHelper = new THREE.GridHelper(Math.max(w, l) * 2, Math.max(w, l) * 2, 0x64748b, 0x334155);
-        gridHelper.position.set(0, 0, l / 2);
+        gridHelper = new THREE.GridHelper(Math.max(w, l) * 2, Math.max(w, l) * 2, 0x334155, 0x1e293b);
+        gridHelper.position.set(0, -0.005, l / 2);
         scene.add(gridHelper);
     }
 }
