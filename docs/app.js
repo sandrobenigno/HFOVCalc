@@ -57,7 +57,7 @@ const elBtnToggleGrid = document.getElementById('btn-toggle-grid');
 // --- 3D Scene Variables ---
 let scene, camera, renderer, controls;
 let roomMesh, roomWireframe, gridHelper;
-let cameraGroup, cameraMesh, frustumMesh, frustumEdges, targetPlaneMesh;
+let cameraGroup, cameraMesh, frustumMesh, frustumEdges, targetPlaneMesh, dimensionLines;
 let isGridVisible = true;
 
 // Initialize App
@@ -315,6 +315,7 @@ function updateCone3D(hfovRad, vfovRad, distance) {
     if (frustumMesh) cameraGroup.remove(frustumMesh);
     if (frustumEdges) cameraGroup.remove(frustumEdges);
     if (targetPlaneMesh) cameraGroup.remove(targetPlaneMesh);
+    if (dimensionLines) cameraGroup.remove(dimensionLines);
 
     // Corners of the vision cone frustum at target distance
     const hw = distance * Math.tan(hfovRad / 2);
@@ -390,6 +391,115 @@ function updateCone3D(hfovRad, vfovRad, distance) {
         })
     );
     cameraGroup.add(targetPlaneMesh);
+
+    // Create container group for dimension lines
+    dimensionLines = new THREE.Group();
+    cameraGroup.add(dimensionLines);
+
+    const arrowSize = 0.15; // size of arrow ticks
+    const offset = 0.25; // distance offset from target frame
+
+    // 1. Horizontal dimension (Width) - Emerald color
+    const hY = -hh - offset;
+    const hPoints = [
+        // Main line
+        new THREE.Vector3(-hw, hY, -distance),
+        new THREE.Vector3(hw, hY, -distance),
+        
+        // Left tick/arrow
+        new THREE.Vector3(-hw, hY - 0.1, -distance),
+        new THREE.Vector3(-hw, hY + 0.1, -distance),
+        new THREE.Vector3(-hw, hY, -distance),
+        new THREE.Vector3(-hw + arrowSize, hY + arrowSize/2, -distance),
+        new THREE.Vector3(-hw, hY, -distance),
+        new THREE.Vector3(-hw + arrowSize, hY - arrowSize/2, -distance),
+
+        // Right tick/arrow
+        new THREE.Vector3(hw, hY - 0.1, -distance),
+        new THREE.Vector3(hw, hY + 0.1, -distance),
+        new THREE.Vector3(hw, hY, -distance),
+        new THREE.Vector3(hw - arrowSize, hY + arrowSize/2, -distance),
+        new THREE.Vector3(hw, hY, -distance),
+        new THREE.Vector3(hw - arrowSize, hY - arrowSize/2, -distance),
+    ];
+    const hDimGeo = new THREE.BufferGeometry().setFromPoints(hPoints);
+    const hDimMat = new THREE.LineBasicMaterial({
+        color: 0x00f5a0,
+        transparent: true,
+        opacity: 0.8
+    });
+    const hDimLineMesh = new THREE.LineSegments(hDimGeo, hDimMat);
+    dimensionLines.add(hDimLineMesh);
+
+    // 2. Vertical dimension (Height) - Amber color
+    const vX = hw + offset;
+    const vPoints = [
+        // Main line
+        new THREE.Vector3(vX, -hh, -distance),
+        new THREE.Vector3(vX, hh, -distance),
+
+        // Bottom tick/arrow
+        new THREE.Vector3(vX - 0.1, -hh, -distance),
+        new THREE.Vector3(vX + 0.1, -hh, -distance),
+        new THREE.Vector3(vX, -hh, -distance),
+        new THREE.Vector3(vX - arrowSize/2, -hh + arrowSize, -distance),
+        new THREE.Vector3(vX, -hh, -distance),
+        new THREE.Vector3(vX + arrowSize/2, -hh + arrowSize, -distance),
+
+        // Top tick/arrow
+        new THREE.Vector3(vX - 0.1, hh, -distance),
+        new THREE.Vector3(vX + 0.1, hh, -distance),
+        new THREE.Vector3(vX, hh, -distance),
+        new THREE.Vector3(vX - arrowSize/2, hh - arrowSize, -distance),
+        new THREE.Vector3(vX, hh, -distance),
+        new THREE.Vector3(vX + arrowSize/2, hh - arrowSize, -distance),
+    ];
+    const vDimGeo = new THREE.BufferGeometry().setFromPoints(vPoints);
+    const vDimMat = new THREE.LineBasicMaterial({
+        color: 0xffaf40,
+        transparent: true,
+        opacity: 0.8
+    });
+    const vDimLineMesh = new THREE.LineSegments(vDimGeo, vDimMat);
+    dimensionLines.add(vDimLineMesh);
+
+    // 3. Text labels using canvas textures
+    const widthText = `${(hw * 2).toFixed(2)}m`;
+    const heightText = `${(hh * 2).toFixed(2)}m`;
+
+    const widthSprite = createTextSprite(widthText, '#00f5a0');
+    widthSprite.position.set(0, hY - 0.25, -distance);
+    dimensionLines.add(widthSprite);
+
+    const heightSprite = createTextSprite(heightText, '#ffaf40');
+    heightSprite.position.set(vX + 0.45, 0, -distance);
+    dimensionLines.add(heightSprite);
+}
+
+// Helper to create text sprites for dimensions in 3D
+function createTextSprite(text, colorStr = '#ffffff') {
+    const canvas = document.createElement('canvas');
+    canvas.width = 256;
+    canvas.height = 64;
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    ctx.font = 'bold 28px "Space Grotesk", sans-serif';
+    ctx.fillStyle = colorStr;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    
+    // Text shadow
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.9)';
+    ctx.shadowBlur = 4;
+    
+    ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+    
+    const texture = new THREE.CanvasTexture(canvas);
+    const spriteMaterial = new THREE.SpriteMaterial({ map: texture, transparent: true });
+    const sprite = new THREE.Sprite(spriteMaterial);
+    sprite.scale.set(1.4, 0.35, 1);
+    return sprite;
 }
 
 // Event Listeners setup
