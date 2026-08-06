@@ -400,7 +400,7 @@ function updateCone3D(hfovRad, vfovRad, distance) {
     const offset = 0.25; // distance offset from target frame
 
     // 1. Horizontal dimension (Width) - Emerald color
-    const hY = -hh - offset;
+    const hY = hh + offset;
     const hPoints = [
         // Main line
         new THREE.Vector3(-hw, hY, -distance),
@@ -468,7 +468,7 @@ function updateCone3D(hfovRad, vfovRad, distance) {
     const heightText = `${(hh * 2).toFixed(2)}m`;
 
     const widthSprite = createTextSprite(widthText, '#00f5a0');
-    widthSprite.position.set(0, hY - 0.25, -distance);
+    widthSprite.position.set(0, hY + 0.25, -distance);
     dimensionLines.add(widthSprite);
 
     const heightSprite = createTextSprite(heightText, '#ffaf40');
