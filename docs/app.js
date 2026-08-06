@@ -114,8 +114,8 @@ const TRANSLATIONS = {
         
         card_hfov_desc: "Abertura Horizontal",
         card_vfov_desc: "Abertura Vertical",
-        card_hfw_title: "HFW (Largura da Cena)",
-        card_vfw_title: "VFW (Altura da Cena)",
+        card_hfw_title: "HFW <span class=\"card-sub-title\">(Largura da Cena)</span>",
+        card_vfw_title: "VFW <span class=\"card-sub-title\">(Altura da Cena)</span>",
         card_framing_at: "Enquadramento a ",
         card_m: "m",
         
@@ -179,8 +179,8 @@ const TRANSLATIONS = {
         
         card_hfov_desc: "Horizontal Field of View",
         card_vfov_desc: "Vertical Field of View",
-        card_hfw_title: "HFW (Field Width)",
-        card_vfw_title: "VFW (Field Height)",
+        card_hfw_title: "HFW <span class=\"card-sub-title\">(Field Width)</span>",
+        card_vfw_title: "VFW <span class=\"card-sub-title\">(Field Height)</span>",
         card_framing_at: "Framing at ",
         card_m: "m",
         
@@ -219,7 +219,7 @@ function setLanguage(lang) {
                     });
                     el.appendChild(document.createTextNode(TRANSLATIONS[lang][key]));
                 } else {
-                    el.textContent = TRANSLATIONS[lang][key];
+                    el.innerHTML = TRANSLATIONS[lang][key];
                 }
             }
         }

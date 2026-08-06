@@ -604,31 +604,210 @@ select {
 }
 
 /* Responsive adjustments */
-@media (max-width: 1200px) {
-    .results-dashboard {
-        grid-template-columns: repeat(2, 1fr);
-        height: auto;
-        min-height: auto;
+@media (max-width: 900px) and (orientation: portrait) {
+    /* Mobile Portrait (Vertical) */
+    .app-container {
+        flex-direction: column-reverse;
+        overflow: hidden;
     }
-    body {
-        overflow: auto;
-    }
-}
-@media (max-width: 800px) {
-    body {
-        flex-direction: column;
-        height: auto;
-        overflow: auto;
-    }
+    
     .sidebar {
         width: 100%;
         min-width: 100%;
-        height: auto;
+        height: 48vh;
+        min-height: 48vh;
+        position: static; /* Permite que o cabeçalho se alinhe ao app-container topo */
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        border-right: none;
+        border-top: 1px solid var(--border-color);
+        box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.25);
     }
+    
+    .sidebar-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 56px;
+        background: var(--bg-surface);
+        z-index: 100; /* Garante que fica por cima do canvas */
+        border-bottom: 1px solid var(--border-color);
+        padding: 0 16px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        box-sizing: border-box;
+    }
+    
+    .sidebar-header .credits, 
+    .sidebar-header .tutorial-link {
+        display: none;
+    }
+    
+    .main-workspace {
+        height: 52vh;
+        min-height: 52vh;
+        padding-top: 56px; /* Empurra o canvas e HUD para baixo do cabeçalho fixo */
+        box-sizing: border-box;
+        flex: none;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .card-sub-title {
+        display: none !important;
+    }
+    
     #canvas-container {
-        height: 400px;
+        flex: 1;
     }
+
+    /* Botões do HUD compactos (Apenas Ícones no celular) */
+    .canvas-hud-controls {
+        top: 10px;
+        right: 10px;
+        gap: 6px;
+    }
+    .canvas-hud-controls button {
+        padding: 8px;
+    }
+    .canvas-hud-controls button span {
+        display: none;
+    }
+    
+    /* Dashboard de resultados ultra-compacto em uma linha horizontal */
     .results-dashboard {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(4, 1fr) !important;
+        height: 42px;
+        min-height: 42px;
+        border-top: 1px solid var(--border-color);
+        background: #090d16;
+    }
+
+    .result-card {
+        padding: 4px;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        border-bottom: none !important;
+        border-left: 1px solid var(--border-color) !important;
+    }
+
+    .result-card:first-child {
+        border-left: none !important;
+    }
+
+    .result-icon-wrapper, 
+    .result-card .description {
+        display: none !important; /* Oculta ícones e descrições no celular retrato */
+    }
+
+    .result-data {
+        display: flex;
+        flex-direction: row;
+        align-items: baseline;
+        gap: 4px;
+    }
+
+    .result-data h3 {
+        font-size: 8px;
+        margin: 0;
+    }
+
+    .result-data .value {
+        font-size: 13px;
+        font-weight: 700;
+    }
+    
+    .logo h1 {
+        font-size: 20px;
+    }
+    .logo-icon {
+        width: 20px;
+        height: 20px;
+    }
+    .lang-selector {
+        top: 14px;
+        right: 16px;
+    }
+    
+    .scrollable-content {
+        padding: 12px;
+        gap: 12px;
+    }
+    
+    .control-group {
+        padding: 12px;
+    }
+
+    /* Melhora o espaçamento de inputs para toque */
+    input[type="range"] {
+        height: 32px;
+    }
+    .range-with-input input[type="number"] {
+        width: 55px;
+        height: 32px;
+        font-size: 13px;
+    }
+    .grid-3-cols input, .grid-2-cols input, select {
+        height: 36px;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 950px) and (orientation: landscape) {
+    /* Mobile Landscape (Horizontal) */
+    .sidebar {
+        width: 290px;
+        min-width: 290px;
+    }
+    
+    .logo h1 {
+        font-size: 18px;
+    }
+    .logo h1 span {
+        font-size: 11px;
+    }
+    
+    .sidebar-header {
+        padding: 12px 16px;
+    }
+    .lang-selector {
+        top: 12px;
+        right: 16px;
+    }
+    
+    .scrollable-content {
+        padding: 8px 12px;
+        gap: 8px;
+    }
+    
+    .control-group {
+        padding: 10px;
+        margin-bottom: 4px;
+    }
+    
+    .group-title h2 {
+        font-size: 12px;
+    }
+    .group-title i {
+        width: 14px;
+        height: 14px;
+    }
+    
+    .results-dashboard {
+        height: 64px;
+        min-height: 64px;
+    }
+    .result-data .value {
+        font-size: 14px;
+    }
+    .result-data h3 {
+        font-size: 8px;
+    }
+    .result-icon-wrapper {
+        width: 24px;
+        height: 24px;
     }
 }

@@ -11,13 +11,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
     <!-- Lucide Icons for premium interface feel -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=1.1">
 </head>
 <body>
     <div class="app-container">
         <!-- Sidebar Controls -->
         <aside class="sidebar">
-            <header class="sidebar-header" style="position: relative;">
+            <header class="sidebar-header">
                 <div class="logo">
                     <i data-lucide="aperture" class="logo-icon"></i>
                     <h1>FOV<span>Calc 3D</span></h1>
@@ -241,7 +241,7 @@
                         <i data-lucide="ruler"></i>
                     </div>
                     <div class="result-data">
-                        <h3 data-i18n="card_hfw_title">HFW (Largura da Cena)</h3>
+                        <h3 data-i18n="card_hfw_title">HFW <span class="card-sub-title">(Largura da Cena)</span></h3>
                         <div class="value" id="hfw-val">-- m</div>
                         <p class="description"><span data-i18n="card_framing_at">Enquadramento a </span><span class="target-d-lbl">4</span><span data-i18n="card_m">m</span></p>
                     </div>
@@ -252,7 +252,7 @@
                         <i data-lucide="ruler" style="transform: rotate(90deg);"></i>
                     </div>
                     <div class="result-data">
-                        <h3 data-i18n="card_vfw_title">VFW (Altura da Cena)</h3>
+                        <h3 data-i18n="card_vfw_title">VFW <span class="card-sub-title">(Altura da Cena)</span></h3>
                         <div class="value" id="vfw-val">-- m</div>
                         <p class="description"><span data-i18n="card_framing_at">Enquadramento a </span><span class="target-d-lbl">4</span><span data-i18n="card_m">m</span></p>
                     </div>
