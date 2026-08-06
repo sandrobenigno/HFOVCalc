@@ -474,6 +474,9 @@ function updateCameraGroup() {
     cameraGroup.rotation.y = yaw;
     cameraGroup.rotation.x = pitch;
     cameraGroup.rotation.z = roll;
+    
+    // Forçar atualização da matriz mundial para que transformações locais/mundiais funcionem imediatamente
+    cameraGroup.updateMatrixWorld(true);
 }
 
 // Update the vision cone (Frustum) based on current FOV & target distance
@@ -643,33 +646,47 @@ function updateCone3D(hfovRad, vfovRad, distance) {
     heightSprite.position.set(vX + 0.45, 0, -distance);
     dimensionLines.add(heightSprite);
 
-    // --- Calcule e desenhe as linhas de interseção com as paredes/piso/teto ---
+    // --- Calcule e desenhe as linhas de interseção com as paredes/piso/teto (Abraçando os cantos) ---
     const roomW = parseFloat(elRoomWidth.value);
     const roomL = parseFloat(elRoomLength.value);
     const roomH = parseFloat(elRoomHeight.value);
 
-    // Vetores de direção dos 4 cantos no espaço do mundo
-    const dirTL = new THREE.Vector3(-hw, hh, -distance).applyQuaternion(cameraGroup.quaternion).normalize();
-    const dirTR = new THREE.Vector3(hw, hh, -distance).applyQuaternion(cameraGroup.quaternion).normalize();
-    const dirBR = new THREE.Vector3(hw, -hh, -distance).applyQuaternion(cameraGroup.quaternion).normalize();
-    const dirBL = new THREE.Vector3(-hw, -hh, -distance).applyQuaternion(cameraGroup.quaternion).normalize();
 
-    const wTL = getBoxIntersections(cameraGroup.position, dirTL, roomW, roomH, roomL);
-    const wTR = getBoxIntersections(cameraGroup.position, dirTR, roomW, roomH, roomL);
-    const wBR = getBoxIntersections(cameraGroup.position, dirBR, roomW, roomH, roomL);
-    const wBL = getBoxIntersections(cameraGroup.position, dirBL, roomW, roomH, roomL);
 
-    if (wTL && wTR && wBR && wBL) {
+    // Check if camera is inside or outside
+    const minX = -roomW / 2, maxX = roomW / 2;
+    const minY = 0, maxY = roomH;
+    const minZ = 0, maxZ = roomL;
+    const isInside = (cameraGroup.position.x >= minX && cameraGroup.position.x <= maxX &&
+                      cameraGroup.position.y >= minY && cameraGroup.position.y <= maxY &&
+                      cameraGroup.position.z >= minZ && cameraGroup.position.z <= maxZ);
+
+    // Função para converter caminhos de pontos em pares de segmentos de reta
+    const getPathSegments = (path) => {
+        const segs = [];
+        for (let i = 0; i < path.length - 1; i++) {
+            segs.push(path[i], path[i + 1]);
+        }
+        return segs;
+    };
+
+    // 1. Calcular caminhos de saída/colisão final (Amarelo)
+    const pathTL_TR_exit = getFaceIntersectionPath(cameraGroup.position, pTL, pTR, roomW, roomH, roomL, true);
+    const pathTR_BR_exit = getFaceIntersectionPath(cameraGroup.position, pTR, pBR, roomW, roomH, roomL, true);
+    const pathBR_BL_exit = getFaceIntersectionPath(cameraGroup.position, pBR, pBL, roomW, roomH, roomL, true);
+    const pathBL_TL_exit = getFaceIntersectionPath(cameraGroup.position, pBL, pTL, roomW, roomH, roomL, true);
+
+    const exitPoints = [
+        ...getPathSegments(pathTL_TR_exit),
+        ...getPathSegments(pathTR_BR_exit),
+        ...getPathSegments(pathBR_BL_exit),
+        ...getPathSegments(pathBL_TL_exit)
+    ];
+
+    if (exitPoints.length > 0) {
         intersectionLines = new THREE.Group();
         scene.add(intersectionLines);
 
-        // Desenhar sempre a colisão final/saída (Máximo) em Amarelo
-        const exitPoints = [
-            wTL.exit, wTR.exit,
-            wTR.exit, wBR.exit,
-            wBR.exit, wBL.exit,
-            wBL.exit, wTL.exit
-        ];
         const exitGeo = new THREE.BufferGeometry().setFromPoints(exitPoints);
         const exitMat = new THREE.LineBasicMaterial({
             color: 0xffd700, // Amarelo Ouro (Colisão Total / Saída)
@@ -678,30 +695,66 @@ function updateCone3D(hfovRad, vfovRad, distance) {
         const exitLineMesh = new THREE.LineSegments(exitGeo, exitMat);
         intersectionLines.add(exitLineMesh);
 
-        // Se a câmera estiver fora do espaço, desenhamos também a colisão inicial/entrada (Mínimo) em Vermelho
-        const minX = -roomW / 2, maxX = roomW / 2;
-        const minY = 0, maxY = roomH;
-        const minZ = 0, maxZ = roomL;
-        const isInside = (cameraGroup.position.x >= minX && cameraGroup.position.x <= maxX &&
-                          cameraGroup.position.y >= minY && cameraGroup.position.y <= maxY &&
-                          cameraGroup.position.z >= minZ && cameraGroup.position.z <= maxZ);
+        // 2. Se a câmera estiver fora, desenhar caminhos de entrada/colisão inicial (Vermelho)
+        if (!isInside) {
+            const pathTL_TR_entry = getFaceIntersectionPath(cameraGroup.position, pTL, pTR, roomW, roomH, roomL, false);
+            const pathTR_BR_entry = getFaceIntersectionPath(cameraGroup.position, pTR, pBR, roomW, roomH, roomL, false);
+            const pathBR_BL_entry = getFaceIntersectionPath(cameraGroup.position, pBR, pBL, roomW, roomH, roomL, false);
+            const pathBL_TL_entry = getFaceIntersectionPath(cameraGroup.position, pBL, pTL, roomW, roomH, roomL, false);
 
-        if (!isInside && wTL.entry && wTR.entry && wBR.entry && wBL.entry) {
             const entryPoints = [
-                wTL.entry, wTR.entry,
-                wTR.entry, wBR.entry,
-                wBR.entry, wBL.entry,
-                wBL.entry, wTL.entry
+                ...getPathSegments(pathTL_TR_entry),
+                ...getPathSegments(pathTR_BR_entry),
+                ...getPathSegments(pathBR_BL_entry),
+                ...getPathSegments(pathBL_TL_entry)
             ];
-            const entryGeo = new THREE.BufferGeometry().setFromPoints(entryPoints);
-            const entryMat = new THREE.LineBasicMaterial({
-                color: 0xff3333, // Vermelho Vivo (Colisão Inicial / Entrada)
-                linewidth: 3
-            });
-            const entryLineMesh = new THREE.LineSegments(entryGeo, entryMat);
-            intersectionLines.add(entryLineMesh);
+
+            if (entryPoints.length > 0) {
+                const entryGeo = new THREE.BufferGeometry().setFromPoints(entryPoints);
+                const entryMat = new THREE.LineBasicMaterial({
+                    color: 0xff3333, // Vermelho Vivo (Colisão Inicial / Entrada)
+                    linewidth: 3
+                });
+                const entryLineMesh = new THREE.LineSegments(entryGeo, entryMat);
+                intersectionLines.add(entryLineMesh);
+            }
         }
     }
+}
+
+// Auxiliares seguros de conversão de coordenadas para evitar incompatibilidades de matrixWorldInverse no Three.js
+const tempMatrix = new THREE.Matrix4();
+function safeLocalToWorld(vector, object) {
+    return vector.clone().applyMatrix4(object.matrixWorld);
+}
+function safeWorldToLocal(vector, object) {
+    tempMatrix.copy(object.matrixWorld).invert();
+    return vector.clone().applyMatrix4(tempMatrix);
+}
+
+// Calcula o caminho de interseção de uma face do frustum fazendo amostragem sequencial por Ray Casting (Ray Marching)
+function getFaceIntersectionPath(origin, vA, vB, w, h, l, isExit) {
+    const points = [];
+    const steps = 48; // Número de amostras para suavidade do contorno
+    
+    for (let i = 0; i <= steps; i++) {
+        const t = i / steps;
+        // Interpola o vetor no espaço local da câmera
+        const vLocal = vA.clone().lerp(vB, t);
+        
+        // Converte o ponto local para uma direção no mundo
+        const worldPt = safeLocalToWorld(vLocal, cameraGroup);
+        const dir = worldPt.clone().sub(origin).normalize();
+        
+        const hit = getBoxIntersections(origin, dir, w, h, l);
+        if (hit) {
+            const pt = isExit ? hit.exit : hit.entry;
+            if (pt) {
+                points.push(pt);
+            }
+        }
+    }
+    return points;
 }
 
 // Auxiliar para calcular todas as interseções (entrada/mínima e saída/máxima) de um raio com a sala (AABB)
