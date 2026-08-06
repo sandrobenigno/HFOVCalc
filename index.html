@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HFOV & VFOV 3D Visual Calculator</title>
+    <meta name="description" content="Calculadora tridimensional interativa de campo de visão (HFOV, VFOV e HFW) para posicionamento de câmeras no espaço.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons for premium interface feel -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Controls -->
+        <aside class="sidebar">
+            <header class="sidebar-header">
+                <div class="logo">
+                    <i data-lucide="aperture" class="logo-icon"></i>
+                    <h1>HFOV<span>Calc 3D</span></h1>
+                </div>
+                <p class="subtitle">Calculadora e Visualizador de Campo de Visão</p>
+            </header>
+
+            <div class="scrollable-content">
+                <!-- Seção 1: Preset e Sensor -->
+                <section class="control-group">
+                    <div class="group-title">
+                        <i data-lucide="camera"></i>
+                        <h2>Sensor da Câmera</h2>
+                    </div>
+                    
+                    <div class="input-field">
+                        <label for="sensor-preset">Preset do Sensor</label>
+                        <select id="sensor-preset">
+                            <option value="35mm" selected>35mm Film Full-Frame (36.0 x 24.0 mm, 3:2)</option>
+                            <option value="apsc-canon">APS-C Canon (22.3 x 14.9 mm, 3:2)</option>
+                            <option value="apsc-sony">APS-C Sony/Nikon/Fuji (23.5 x 15.6 mm, 3:2)</option>
+                            <option value="m43">Micro Four Thirds (17.3 x 13.0 mm, 4:3)</option>
+                            <option value="super35">Super 35 (24.89 x 18.66 mm, 4:3)</option>
+                            <option value="imax">IMAX Film Frame (70.41 x 52.63 mm, 4:3)</option>
+                            <option value="one-fourth">1/4" Sensor (3.6 x 2.7 mm, 4:3)</option>
+                            <option value="one-third-six">1/3.6" Nokia Lumia 720 (4.0 x 3.0 mm, 4:3)</option>
+                            <option value="one-third-two">1/3.2" iPhone 5 (4.54 x 3.42 mm, 4:3)</option>
+                            <option value="large-8x10">Large-format 8x10 inch (254.0 x 203.0 mm, 5:4)</option>
+                            <option value="custom">Customizado...</option>
+                        </select>
+                    </div>
+
+                    <div class="grid-2-cols" id="custom-sensor-dims" style="display: none;">
+                        <div class="input-field">
+                            <label for="sensor-width">Largura (mm)</label>
+                            <input type="number" id="sensor-width" value="36.00" step="0.01" min="0.1">
+                        </div>
+                        <div class="input-field">
+                            <label for="sensor-height">Altura (mm)</label>
+                            <input type="number" id="sensor-height" value="24.00" step="0.01" min="0.1">
+                        </div>
+                    </div>
+
+                    <div class="stats-row mini-stats">
+                        <div>Diagonal: <span id="diag-val">43.27 mm</span></div>
+                        <div>Aspecto: <span id="aspect-val">3:2</span></div>
+                    </div>
+                </section>
+
+                <!-- Seção 2: Lente -->
+                <section class="control-group">
+                    <div class="group-title">
+                        <i data-lucide="focus"></i>
+                        <h2>Parâmetros da Lente</h2>
+                    </div>
+
+                    <div class="input-field">
+                        <label for="focal-length">Distância Focal (mm)</label>
+                        <div class="range-with-input">
+                            <input type="range" id="focal-length-slider" min="4" max="200" value="50" step="1">
+                            <input type="number" id="focal-length" value="50" min="1" max="1000" step="0.5">
+                        </div>
+                    </div>
+
+                    <div class="input-field toggle-field">
+                        <label>Tipo de Distância Focal</label>
+                        <div class="segmented-control">
+                            <input type="radio" id="focal-real" name="focal-type" value="real" checked>
+                            <label for="focal-real">Física Real</label>
+                            
+                            <input type="radio" id="focal-equiv" name="focal-type" value="equivalent">
+                            <label for="focal-equiv">Equiv. 35mm</label>
+                        </div>
+                    </div>
+                    
+                    <div class="stats-row mini-stats">
+                        <div>Fator de Corte Diagonal: <span id="crop-diag-val">1.00x</span></div>
+                        <div>Fator de Corte Horizontal: <span id="crop-horiz-val">1.00x</span></div>
+                    </div>
+                </section>
+
+                <!-- Seção 3: Posicionamento no Espaço -->
+                <section class="control-group">
+                    <div class="group-title">
+                        <i data-lucide="move-3d"></i>
+                        <h2>Posicionamento da Câmera (m)</h2>
+                    </div>
+                    <div class="grid-3-cols">
+                        <div class="input-field">
+                            <label for="cam-x">Pos. X (Lat)</label>
+                            <input type="number" id="cam-x" value="0.0" step="0.1">
+                        </div>
+                        <div class="input-field">
+                            <label for="cam-y">Pos. Y (Comp)</label>
+                            <input type="number" id="cam-y" value="1.0" step="0.1">
+                        </div>
+                        <div class="input-field">
+                            <label for="cam-z">Pos. Z (Alt)</label>
+                            <input type="number" id="cam-z" value="1.7" step="0.1">
+                        </div>
+                    </div>
+
+                    <div class="group-subtitle">Orientação (Graus)</div>
+                    <div class="grid-3-cols">
+                        <div class="input-field">
+                            <label for="cam-yaw">Pan / Yaw</label>
+                            <input type="number" id="cam-yaw" value="0" step="1" min="-180" max="180">
+                        </div>
+                        <div class="input-field">
+                            <label for="cam-pitch">Tilt / Pitch</label>
+                            <input type="number" id="cam-pitch" value="0" step="1" min="-90" max="90">
+                        </div>
+                        <div class="input-field">
+                            <label for="cam-roll">Roll</label>
+                            <input type="number" id="cam-roll" value="0" step="1" min="-180" max="180">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Seção 4: Espaço Físico (Sala) -->
+                <section class="control-group">
+                    <div class="group-title">
+                        <i data-lucide="layout"></i>
+                        <h2>Dimensões do Espaço (m)</h2>
+                    </div>
+                    <div class="grid-3-cols">
+                        <div class="input-field">
+                            <label for="room-width">Largura (X)</label>
+                            <input type="number" id="room-width" value="6.0" min="1.0" step="0.5">
+                        </div>
+                        <div class="input-field">
+                            <label for="room-length">Compr. (Y)</label>
+                            <input type="number" id="room-length" value="8.0" min="1.0" step="0.5">
+                        </div>
+                        <div class="input-field">
+                            <label for="room-height">Altura (Z)</label>
+                            <input type="number" id="room-height" value="3.0" min="1.0" step="0.5">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Seção 5: Distância do Foco -->
+                <section class="control-group">
+                    <div class="group-title">
+                        <i data-lucide="target"></i>
+                        <h2>Foco & Distância do Alvo</h2>
+                    </div>
+                    <div class="input-field">
+                        <label for="target-dist">Distância do Alvo (D) em metros</label>
+                        <div class="range-with-input">
+                            <input type="range" id="target-dist-slider" min="0.5" max="25" value="4" step="0.1">
+                            <input type="number" id="target-dist" value="4.0" min="0.1" max="100" step="0.1">
+                        </div>
+                    </div>
+                </section>
+            </div>
+            
+            <footer class="sidebar-footer">
+                <p>Criado com <i data-lucide="heart" class="heart-icon"></i> para Cineastas e Engenheiros</p>
+            </footer>
+        </aside>
+
+        <!-- Main Workspace (3D Viewport + Numeric Results) -->
+        <main class="main-workspace">
+            <!-- Viewport 3D Canvas -->
+            <div id="canvas-container">
+                <canvas id="three-canvas"></canvas>
+                
+                <!-- 3D Controls HUD Overlay -->
+                <div class="canvas-hud-controls">
+                    <button id="btn-reset-view" title="Resetar Câmera 3D"><i data-lucide="rotate-ccw"></i> Resetar Vista</button>
+                    <button id="btn-toggle-grid" title="Alternar Grelha da Sala" class="active"><i data-lucide="grid"></i> Grid</button>
+                </div>
+            </div>
+
+            <!-- Dashboard de Resultados -->
+            <section class="results-dashboard">
+                <div class="result-card accent-hfov">
+                    <div class="result-icon-wrapper">
+                        <i data-lucide="expand"></i>
+                    </div>
+                    <div class="result-data">
+                        <h3>HFOV</h3>
+                        <div class="value" id="hfov-val">--°</div>
+                        <p class="description">Abertura Horizontal</p>
+                    </div>
+                </div>
+
+                <div class="result-card accent-vfov">
+                    <div class="result-icon-wrapper">
+                        <i data-lucide="arrow-up-down"></i>
+                    </div>
+                    <div class="result-data">
+                        <h3>VFOV</h3>
+                        <div class="value" id="vfov-val">--°</div>
+                        <p class="description">Abertura Vertical</p>
+                    </div>
+                </div>
+
+                <div class="result-card accent-hfw">
+                    <div class="result-icon-wrapper">
+                        <i data-lucide="ruler"></i>
+                    </div>
+                    <div class="result-data">
+                        <h3>HFW (Largura da Cena)</h3>
+                        <div class="value" id="hfw-val">-- m</div>
+                        <p class="description">Enquadramento a <span class="target-d-lbl">4</span>m</p>
+                    </div>
+                </div>
+
+                <div class="result-card accent-vfw">
+                    <div class="result-icon-wrapper">
+                        <i data-lucide="ruler-vertical"></i>
+                    </div>
+                    <div class="result-data">
+                        <h3>VFW (Altura da Cena)</h3>
+                        <div class="value" id="vfw-val">-- m</div>
+                        <p class="description">Enquadramento a <span class="target-d-lbl">4</span>m</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Import Three.js via CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <!-- Core Application Logic -->
+    <script src="app.js"></script>
+</body>
+</html>
