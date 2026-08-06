@@ -50,6 +50,8 @@ const elTargetDistSlider = document.getElementById('target-dist-slider');
 
 const elHfovVal = document.getElementById('hfov-val');
 const elVfovVal = document.getElementById('vfov-val');
+const elHudHfovVal = document.getElementById('hud-hfov-val');
+const elHudVfovVal = document.getElementById('hud-vfov-val');
 const elHfwVal = document.getElementById('hfw-val');
 const elVfwVal = document.getElementById('vfw-val');
 const elTargetDLbls = document.querySelectorAll('.target-d-lbl');
@@ -127,19 +129,19 @@ function init3D() {
     cameraGroup = new THREE.Group();
     scene.add(cameraGroup);
 
-    // Add camera visual body
+    // Add camera visual body (shifted back so the projection vertex is at the lens center)
     const camGeo = new THREE.BoxGeometry(0.2, 0.15, 0.3);
     const camMat = new THREE.MeshStandardMaterial({ color: 0xffb703, roughness: 0.2, metalness: 0.1 });
     cameraMesh = new THREE.Mesh(camGeo, camMat);
-    cameraMesh.position.set(0, 0, 0);
+    cameraMesh.position.set(0, 0, 0.2);
     cameraGroup.add(cameraMesh);
 
-    // Camera Lens
+    // Camera Lens (positioned at origin so projection starts from its center)
     const lensGeo = new THREE.CylinderGeometry(0.06, 0.06, 0.15, 16);
     lensGeo.rotateX(Math.PI / 2);
     const lensMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.1, metalness: 0.9 });
     const lensMesh = new THREE.Mesh(lensGeo, lensMat);
-    lensMesh.position.set(0, 0, -0.2); // pointing along negative Z
+    lensMesh.position.set(0, 0, 0); // centered at (0, 0, 0)
     cameraGroup.add(lensMesh);
 
     // Setup Room & Vision Cone placeholder
@@ -226,6 +228,8 @@ function updateCalculations() {
 
     elHfovVal.textContent = hfovDeg.toFixed(1) + "°";
     elVfovVal.textContent = vfovDeg.toFixed(1) + "°";
+    if (elHudHfovVal) elHudHfovVal.textContent = hfovDeg.toFixed(1) + "°";
+    if (elHudVfovVal) elHudVfovVal.textContent = vfovDeg.toFixed(1) + "°";
 
     // 4. Calculate HFW and VFW at Distance D
     const d = parseFloat(elTargetDist.value);
