@@ -1,4 +1,5 @@
 // Core Application for HFOV/VFOV 3D Visual Calculator
+// Version: 1.1 - Mobile Layout Fix
 
 // --- Constants & Config ---
 const REFERENCE_FF_DIAG = Math.sqrt(36 * 36 + 24 * 24); // ~43.2666 mm
