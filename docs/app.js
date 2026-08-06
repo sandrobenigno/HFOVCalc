@@ -852,7 +852,7 @@ function createTextSprite(text, colorStr = '#ffffff') {
     ctx.fillText(text, canvas.width / 2, canvas.height / 2);
     
     const texture = new THREE.CanvasTexture(canvas);
-    const spriteMaterial = new THREE.SpriteMaterial({ map: texture, transparent: true });
+    const spriteMaterial = new THREE.SpriteMaterial({ map: texture, transparent: true, depthWrite: false });
     const sprite = new THREE.Sprite(spriteMaterial);
     sprite.scale.set(1.4, 0.35, 1);
     return sprite;
