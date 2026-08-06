@@ -233,7 +233,20 @@ select, input[type="number"], input[type="text"] {
     font-family: var(--font-body);
     font-size: 12px;
     outline: none;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
     transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+/* Ocultar as setas (spinners) padrão nos campos numéricos para economizar espaço */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    -moz-appearance: textfield;
 }
 
 select:focus, input[type="number"]:focus {

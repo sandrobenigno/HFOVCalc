@@ -107,32 +107,39 @@
                     </div>
                     <div class="grid-3-cols">
                         <div class="input-field">
-                            <label for="cam-x">Pos. X (Lat)</label>
+                            <label for="cam-x">X (Lat.)</label>
                             <input type="number" id="cam-x" value="0.0" step="0.1">
                         </div>
                         <div class="input-field">
-                            <label for="cam-y">Pos. Y (Comp)</label>
+                            <label for="cam-y">Y (Comp.)</label>
                             <input type="number" id="cam-y" value="1.0" step="0.1">
                         </div>
                         <div class="input-field">
-                            <label for="cam-z">Pos. Z (Alt)</label>
+                            <label for="cam-z">Z (Alt.)</label>
                             <input type="number" id="cam-z" value="1.7" step="0.1">
                         </div>
                     </div>
 
                     <div class="group-subtitle">Orientação (Graus)</div>
-                    <div class="grid-3-cols">
-                        <div class="input-field">
-                            <label for="cam-yaw">Pan / Yaw</label>
-                            <input type="number" id="cam-yaw" value="0" step="1" min="-180" max="180">
+                    <div class="input-field">
+                        <label for="cam-yaw">Pan / Yaw (Giro)</label>
+                        <div class="range-with-input">
+                            <input type="range" id="cam-yaw-slider" min="-180" max="180" value="0" step="1">
+                            <input type="number" id="cam-yaw" value="0" min="-180" max="180" step="1">
                         </div>
-                        <div class="input-field">
-                            <label for="cam-pitch">Tilt / Pitch</label>
-                            <input type="number" id="cam-pitch" value="0" step="1" min="-90" max="90">
+                    </div>
+                    <div class="input-field">
+                        <label for="cam-pitch">Tilt / Pitch (Inclinação)</label>
+                        <div class="range-with-input">
+                            <input type="range" id="cam-pitch-slider" min="-90" max="90" value="0" step="1">
+                            <input type="number" id="cam-pitch" value="0" min="-90" max="90" step="1">
                         </div>
-                        <div class="input-field">
-                            <label for="cam-roll">Roll</label>
-                            <input type="number" id="cam-roll" value="0" step="1" min="-180" max="180">
+                    </div>
+                    <div class="input-field">
+                        <label for="cam-roll">Roll (Rotação)</label>
+                        <div class="range-with-input">
+                            <input type="range" id="cam-roll-slider" min="-180" max="180" value="0" step="1">
+                            <input type="number" id="cam-roll" value="0" min="-180" max="180" step="1">
                         </div>
                     </div>
                 </section>
@@ -145,15 +152,15 @@
                     </div>
                     <div class="grid-3-cols">
                         <div class="input-field">
-                            <label for="room-width">Largura (X)</label>
+                            <label for="room-width">Larg. (X)</label>
                             <input type="number" id="room-width" value="6.0" min="1.0" step="0.5">
                         </div>
                         <div class="input-field">
-                            <label for="room-length">Compr. (Y)</label>
+                            <label for="room-length">Comp. (Y)</label>
                             <input type="number" id="room-length" value="8.0" min="1.0" step="0.5">
                         </div>
                         <div class="input-field">
-                            <label for="room-height">Altura (Z)</label>
+                            <label for="room-height">Alt. (Z)</label>
                             <input type="number" id="room-height" value="3.0" min="1.0" step="0.5">
                         </div>
                     </div>

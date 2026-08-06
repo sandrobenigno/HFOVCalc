@@ -35,8 +35,11 @@ const elCamX = document.getElementById('cam-x');
 const elCamY = document.getElementById('cam-y');
 const elCamZ = document.getElementById('cam-z');
 const elCamYaw = document.getElementById('cam-yaw');
+const elCamYawSlider = document.getElementById('cam-yaw-slider');
 const elCamPitch = document.getElementById('cam-pitch');
+const elCamPitchSlider = document.getElementById('cam-pitch-slider');
 const elCamRoll = document.getElementById('cam-roll');
+const elCamRollSlider = document.getElementById('cam-roll-slider');
 
 const elRoomWidth = document.getElementById('room-width');
 const elRoomLength = document.getElementById('room-length');
@@ -259,19 +262,7 @@ function updateRoom3D() {
     roomWireframe.position.set(0, h / 2, l / 2);
     scene.add(roomWireframe);
 
-    // Translucent room volume
-    const roomMat = new THREE.MeshStandardMaterial({
-        color: 0x0f172a,
-        roughness: 0.9,
-        metalness: 0.1,
-        transparent: true,
-        opacity: 0.15,
-        side: THREE.BackSide
-    });
-    roomMesh = new THREE.Mesh(roomGeo, roomMat);
-    roomMesh.position.set(0, h / 2, l / 2);
-    roomMesh.receiveShadow = true;
-    scene.add(roomMesh);
+    // Room volume mesh removed for pure outline visual as requested
 
     // Floor Grid Helper
     if (isGridVisible) {
@@ -378,16 +369,17 @@ function updateCone3D(hfovRad, vfovRad, distance) {
     }));
     cameraGroup.add(frustumEdges);
 
-    // Target Plane at Distance D (with a subtle custom wire grid)
-    const targetPlaneGeo = new THREE.PlaneGeometry(hw * 2, hh * 2, 4, 4);
+    // Target Plane at Distance D (solid translucent light blue plane)
+    const targetPlaneGeo = new THREE.PlaneGeometry(hw * 2, hh * 2);
     targetPlaneGeo.translate(0, 0, -distance);
     
-    targetPlaneMesh = new THREE.LineSegments(
-        new THREE.WireframeGeometry(targetPlaneGeo),
-        new THREE.LineBasicMaterial({
-            color: 0xf355da,
+    targetPlaneMesh = new THREE.Mesh(
+        targetPlaneGeo,
+        new THREE.MeshBasicMaterial({
+            color: 0x00f2fe, // Azul claro / ciano
             transparent: true,
-            opacity: 0.5
+            opacity: 0.25,
+            side: THREE.DoubleSide
         })
     );
     cameraGroup.add(targetPlaneMesh);
@@ -532,7 +524,35 @@ function setupEventListeners() {
     elFocalReal.addEventListener('change', updateCalculations);
     elFocalEquiv.addEventListener('change', updateCalculations);
 
-    // Camera coordinates and orientation
+    // Link Sliders & Number Inputs for orientation
+    elCamYawSlider.addEventListener('input', (e) => {
+        elCamYaw.value = e.target.value;
+        updateCalculations();
+    });
+    elCamYaw.addEventListener('input', (e) => {
+        elCamYawSlider.value = e.target.value;
+        updateCalculations();
+    });
+
+    elCamPitchSlider.addEventListener('input', (e) => {
+        elCamPitch.value = e.target.value;
+        updateCalculations();
+    });
+    elCamPitch.addEventListener('input', (e) => {
+        elCamPitchSlider.value = e.target.value;
+        updateCalculations();
+    });
+
+    elCamRollSlider.addEventListener('input', (e) => {
+        elCamRoll.value = e.target.value;
+        updateCalculations();
+    });
+    elCamRoll.addEventListener('input', (e) => {
+        elCamRollSlider.value = e.target.value;
+        updateCalculations();
+    });
+
+    // Camera coordinates and orientation inputs
     const inputs3D = [elCamX, elCamY, elCamZ, elCamYaw, elCamPitch, elCamRoll];
     inputs3D.forEach(input => {
         input.addEventListener('input', updateCalculations);
