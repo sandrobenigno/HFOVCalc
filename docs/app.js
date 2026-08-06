@@ -706,9 +706,42 @@ function setupEventListeners() {
         updateCalculations();
     });
 
-    // Focal length type radio buttons
-    elFocalReal.addEventListener('change', updateCalculations);
-    elFocalEquiv.addEventListener('change', updateCalculations);
+    // Helper to calculate current diagonal crop factor for on-the-fly conversions
+    const getCurrentCropDiag = () => {
+        let w = parseFloat(elSensorWidth.value);
+        let h = parseFloat(elSensorHeight.value);
+        const preset = elSensorPreset.value;
+        if (preset !== 'custom') {
+            w = SENSOR_PRESETS[preset].width;
+            h = SENSOR_PRESETS[preset].height;
+        }
+        const diag = Math.sqrt(w * w + h * h);
+        return REFERENCE_FF_DIAG / diag;
+    };
+
+    // Focal length type radio buttons with smart swap calculation
+    elFocalReal.addEventListener('change', (e) => {
+        if (e.target.checked) {
+            // Equivalent to Real: Real = Equiv / Crop Factor
+            const crop = getCurrentCropDiag();
+            const currentVal = parseFloat(elFocalLength.value);
+            const newVal = currentVal / crop;
+            elFocalLength.value = newVal.toFixed(1);
+            elFocalLengthSlider.value = Math.round(newVal);
+            updateCalculations();
+        }
+    });
+    elFocalEquiv.addEventListener('change', (e) => {
+        if (e.target.checked) {
+            // Real to Equivalent: Equiv = Real * Crop Factor
+            const crop = getCurrentCropDiag();
+            const currentVal = parseFloat(elFocalLength.value);
+            const newVal = currentVal * crop;
+            elFocalLength.value = newVal.toFixed(1);
+            elFocalLengthSlider.value = Math.round(newVal);
+            updateCalculations();
+        }
+    });
 
     // Link Sliders & Number Inputs for orientation
     elCamYawSlider.addEventListener('input', (e) => {
