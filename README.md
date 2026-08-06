@@ -1,4 +1,4 @@
-# HFOVCalc
+# FOVCalc
 
 ![3DCalc](img/3DCalc.jpg)
 
