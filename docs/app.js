@@ -295,9 +295,10 @@ function updateCameraGroup() {
 
     // Rotations:
     // Yaw (Pan): Rotation around world Y axis (upwards). Convert to radians.
+    // Adicionamos +180 graus para que Yaw = 0 aponte para dentro da sala (+Z).
     // Pitch (Tilt): Rotation around camera local X axis.
     // Roll: Rotation around camera local Z axis.
-    const yaw = parseFloat(elCamYaw.value) * (Math.PI / 180);
+    const yaw = (parseFloat(elCamYaw.value) + 180) * (Math.PI / 180);
     const pitch = parseFloat(elCamPitch.value) * (Math.PI / 180);
     const roll = parseFloat(elCamRoll.value) * (Math.PI / 180);
 
