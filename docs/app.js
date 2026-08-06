@@ -673,11 +673,22 @@ function createTextSprite(text, colorStr = '#ffffff') {
 function setupEventListeners() {
     // Preset dropdown changed
     elSensorPreset.addEventListener('change', (e) => {
-        if (e.target.value === 'custom') {
+        const preset = e.target.value;
+        if (preset === 'custom') {
             elCustomSensorDims.style.display = 'grid';
         } else {
             elCustomSensorDims.style.display = 'none';
         }
+
+        // Auto-select focal length type based on sensor selection
+        if (preset !== 'custom') {
+            if (preset === '35mm') {
+                elFocalReal.checked = true;
+            } else {
+                elFocalEquiv.checked = true;
+            }
+        }
+        
         updateCalculations();
     });
 
