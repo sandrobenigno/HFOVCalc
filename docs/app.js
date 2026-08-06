@@ -126,7 +126,7 @@ function init3D() {
 
     // Add camera visual body
     const camGeo = new THREE.BoxGeometry(0.2, 0.15, 0.3);
-    const camMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.5, metalness: 0.8 });
+    const camMat = new THREE.MeshStandardMaterial({ color: 0xffb703, roughness: 0.2, metalness: 0.1 });
     cameraMesh = new THREE.Mesh(camGeo, camMat);
     cameraMesh.position.set(0, 0, 0);
     cameraGroup.add(cameraMesh);
@@ -255,7 +255,7 @@ function updateRoom3D() {
     
     // Wireframe container
     const edges = new THREE.EdgesGeometry(roomGeo);
-    roomWireframe = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0x1e293b, linewidth: 2 }));
+    roomWireframe = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0x475569, linewidth: 2 }));
     roomWireframe.position.set(0, h / 2, l / 2);
     scene.add(roomWireframe);
 
@@ -275,7 +275,7 @@ function updateRoom3D() {
 
     // Floor Grid Helper
     if (isGridVisible) {
-        gridHelper = new THREE.GridHelper(Math.max(w, l) * 2, Math.max(w, l) * 2, 0x3b82f6, 0x1e293b);
+        gridHelper = new THREE.GridHelper(Math.max(w, l) * 2, Math.max(w, l) * 2, 0x64748b, 0x334155);
         gridHelper.position.set(0, 0, l / 2);
         scene.add(gridHelper);
     }
