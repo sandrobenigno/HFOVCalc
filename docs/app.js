@@ -60,7 +60,7 @@ const elBtnToggleGrid = document.getElementById('btn-toggle-grid');
 // --- 3D Scene Variables ---
 let scene, camera, renderer, controls;
 let roomMesh, roomWireframe, gridHelper;
-let cameraGroup, cameraMesh, frustumMesh, frustumEdges, targetPlaneMesh, dimensionLines;
+let cameraGroup, cameraMesh, frustumMesh, frustumEdges, targetPlaneMesh, dimensionLines, intersectionLines;
 let isGridVisible = true;
 
 // --- i18n Translation Dictionary ---
@@ -482,6 +482,7 @@ function updateCone3D(hfovRad, vfovRad, distance) {
     if (frustumEdges) cameraGroup.remove(frustumEdges);
     if (targetPlaneMesh) cameraGroup.remove(targetPlaneMesh);
     if (dimensionLines) cameraGroup.remove(dimensionLines);
+    if (intersectionLines) scene.remove(intersectionLines);
 
     // Corners of the vision cone frustum at target distance
     const hw = distance * Math.tan(hfovRad / 2);
@@ -641,6 +642,141 @@ function updateCone3D(hfovRad, vfovRad, distance) {
     const heightSprite = createTextSprite(heightText, '#ffaf40');
     heightSprite.position.set(vX + 0.45, 0, -distance);
     dimensionLines.add(heightSprite);
+
+    // --- Calcule e desenhe as linhas de interseção com as paredes/piso/teto ---
+    const roomW = parseFloat(elRoomWidth.value);
+    const roomL = parseFloat(elRoomLength.value);
+    const roomH = parseFloat(elRoomHeight.value);
+
+    // Vetores de direção dos 4 cantos no espaço do mundo
+    const dirTL = new THREE.Vector3(-hw, hh, -distance).applyQuaternion(cameraGroup.quaternion).normalize();
+    const dirTR = new THREE.Vector3(hw, hh, -distance).applyQuaternion(cameraGroup.quaternion).normalize();
+    const dirBR = new THREE.Vector3(hw, -hh, -distance).applyQuaternion(cameraGroup.quaternion).normalize();
+    const dirBL = new THREE.Vector3(-hw, -hh, -distance).applyQuaternion(cameraGroup.quaternion).normalize();
+
+    const wTL = getBoxIntersections(cameraGroup.position, dirTL, roomW, roomH, roomL);
+    const wTR = getBoxIntersections(cameraGroup.position, dirTR, roomW, roomH, roomL);
+    const wBR = getBoxIntersections(cameraGroup.position, dirBR, roomW, roomH, roomL);
+    const wBL = getBoxIntersections(cameraGroup.position, dirBL, roomW, roomH, roomL);
+
+    if (wTL && wTR && wBR && wBL) {
+        intersectionLines = new THREE.Group();
+        scene.add(intersectionLines);
+
+        // Desenhar sempre a colisão final/saída (Máximo) em Amarelo
+        const exitPoints = [
+            wTL.exit, wTR.exit,
+            wTR.exit, wBR.exit,
+            wBR.exit, wBL.exit,
+            wBL.exit, wTL.exit
+        ];
+        const exitGeo = new THREE.BufferGeometry().setFromPoints(exitPoints);
+        const exitMat = new THREE.LineBasicMaterial({
+            color: 0xffd700, // Amarelo Ouro (Colisão Total / Saída)
+            linewidth: 3
+        });
+        const exitLineMesh = new THREE.LineSegments(exitGeo, exitMat);
+        intersectionLines.add(exitLineMesh);
+
+        // Se a câmera estiver fora do espaço, desenhamos também a colisão inicial/entrada (Mínimo) em Vermelho
+        const minX = -roomW / 2, maxX = roomW / 2;
+        const minY = 0, maxY = roomH;
+        const minZ = 0, maxZ = roomL;
+        const isInside = (cameraGroup.position.x >= minX && cameraGroup.position.x <= maxX &&
+                          cameraGroup.position.y >= minY && cameraGroup.position.y <= maxY &&
+                          cameraGroup.position.z >= minZ && cameraGroup.position.z <= maxZ);
+
+        if (!isInside && wTL.entry && wTR.entry && wBR.entry && wBL.entry) {
+            const entryPoints = [
+                wTL.entry, wTR.entry,
+                wTR.entry, wBR.entry,
+                wBR.entry, wBL.entry,
+                wBL.entry, wTL.entry
+            ];
+            const entryGeo = new THREE.BufferGeometry().setFromPoints(entryPoints);
+            const entryMat = new THREE.LineBasicMaterial({
+                color: 0xff3333, // Vermelho Vivo (Colisão Inicial / Entrada)
+                linewidth: 3
+            });
+            const entryLineMesh = new THREE.LineSegments(entryGeo, entryMat);
+            intersectionLines.add(entryLineMesh);
+        }
+    }
+}
+
+// Auxiliar para calcular todas as interseções (entrada/mínima e saída/máxima) de um raio com a sala (AABB)
+function getBoxIntersections(origin, dir, w, h, l) {
+    const minX = -w / 2, maxX = w / 2;
+    const minY = 0, maxY = h;
+    const minZ = 0, maxZ = l;
+    
+    let tVals = [];
+    
+    const checkPlane = (t, pt) => {
+        if (t > 0.001) {
+            if (pt.x >= minX - 0.001 && pt.x <= maxX + 0.001 &&
+                pt.y >= minY - 0.001 && pt.y <= maxY + 0.001 &&
+                pt.z >= minZ - 0.001 && pt.z <= maxZ + 0.001) {
+                tVals.push({ t, pt });
+            }
+        }
+    };
+    
+    // Planos X (Paredes Laterais)
+    if (Math.abs(dir.x) > 0.0001) {
+        let t = (minX - origin.x) / dir.x;
+        checkPlane(t, new THREE.Vector3().copy(origin).addScaledVector(dir, t));
+        
+        t = (maxX - origin.x) / dir.x;
+        checkPlane(t, new THREE.Vector3().copy(origin).addScaledVector(dir, t));
+    }
+    // Planos Y (Piso e Teto)
+    if (Math.abs(dir.y) > 0.0001) {
+        let t = (minY - origin.y) / dir.y;
+        checkPlane(t, new THREE.Vector3().copy(origin).addScaledVector(dir, t));
+        
+        t = (maxY - origin.y) / dir.y;
+        checkPlane(t, new THREE.Vector3().copy(origin).addScaledVector(dir, t));
+    }
+    // Planos Z (Parede Traseira e Frontal)
+    if (Math.abs(dir.z) > 0.0001) {
+        let t = (minZ - origin.z) / dir.z;
+        checkPlane(t, new THREE.Vector3().copy(origin).addScaledVector(dir, t));
+        
+        t = (maxZ - origin.z) / dir.z;
+        checkPlane(t, new THREE.Vector3().copy(origin).addScaledVector(dir, t));
+    }
+    
+    // Ordena as interseções pelo parâmetro t (distância)
+    tVals.sort((a, b) => a.t - b.t);
+    
+    if (tVals.length === 0) return null;
+    
+    const isInside = (origin.x >= minX && origin.x <= maxX &&
+                      origin.y >= minY && origin.y <= maxY &&
+                      origin.z >= minZ && origin.z <= maxZ);
+                      
+    if (isInside) {
+        // Se a câmera está dentro, a "entrada" é a própria câmera e a "saída" é a parede
+        return {
+            entry: origin.clone(),
+            exit: tVals[0].pt
+        };
+    } else {
+        // Câmera fora do espaço: precisa de pelo menos 2 pontos (onde entra e onde sai do volume)
+        if (tVals.length >= 2) {
+            return {
+                entry: tVals[0].pt,
+                exit: tVals[tVals.length - 1].pt
+            };
+        } else if (tVals.length === 1) {
+            return {
+                entry: tVals[0].pt,
+                exit: tVals[0].pt
+            };
+        }
+    }
+    return null;
 }
 
 // Helper to create text sprites for dimensions in 3D
