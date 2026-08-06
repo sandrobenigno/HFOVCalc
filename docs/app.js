@@ -63,6 +63,181 @@ let roomMesh, roomWireframe, gridHelper;
 let cameraGroup, cameraMesh, frustumMesh, frustumEdges, targetPlaneMesh, dimensionLines;
 let isGridVisible = true;
 
+// --- i18n Translation Dictionary ---
+const TRANSLATIONS = {
+    pt: {
+        app_title: "HFOV & VFOV 3D Visual Calculator",
+        subtitle: "Calculadora e Visualizador de Campo de Visão",
+        credits: "By Sandro Benigno (EvilPlaymobil)",
+        tutorial: "tutorial",
+        tutorial_pre: "Entenda o conceito no ",
+        tutorial_post: "!",
+        
+        sensor_title: "Sensor da Câmera",
+        sensor_preset: "Preset do Sensor",
+        sensor_width: "Larg. (mm)",
+        sensor_height: "Alt. (mm)",
+        sensor_custom: "Customizado...",
+        sensor_diag: "Diagonal: ",
+        sensor_aspect: "Aspecto: ",
+        
+        lens_title: "Parâmetros da Lente",
+        lens_focal: "Distância Focal (mm)",
+        lens_type: "Tipo de Distância Focal",
+        lens_real: "Física Real",
+        lens_equiv: "Equiv. 35mm",
+        crop_diag: "Fator de Corte Diagonal: ",
+        crop_horiz: "Fator de Corte Horizontal: ",
+        
+        cam_title: "Posicionamento da Câmera (m)",
+        cam_x: "X (Lat.)",
+        cam_y: "Y (Comp.)",
+        cam_z: "Z (Alt.)",
+        cam_orientation: "Orientação (Graus)",
+        cam_yaw: "Pan / Yaw (Giro)",
+        cam_pitch: "Tilt / Pitch (Inclinação)",
+        cam_roll: "Roll (Rotação)",
+        
+        space_title: "Dimensões do Espaço (m)",
+        space_w: "Larg. (X)",
+        space_l: "Comp. (Y)",
+        space_h: "Alt. (Z)",
+        
+        target_title: "Foco & Distância do Alvo",
+        target_dist: "Distância do Alvo (D) em metros",
+        
+        footer_text: "Criado com ",
+        footer_post: " para Cineastas e Engenheiros",
+        
+        btn_reset: " Resetar Vista",
+        btn_grid: " Grid",
+        
+        card_hfov_desc: "Abertura Horizontal",
+        card_vfov_desc: "Abertura Vertical",
+        card_hfw_title: "HFW (Largura da Cena)",
+        card_vfw_title: "VFW (Altura da Cena)",
+        card_framing_at: "Enquadramento a ",
+        card_m: "m",
+        
+        preset_35mm: "35mm Film Full-Frame (36.0 x 24.0 mm, 3:2)",
+        preset_apsc_canon: "APS-C Canon (22.3 x 14.9 mm, 3:2)",
+        preset_apsc_sony: "APS-C Sony/Nikon/Fuji (23.5 x 15.6 mm, 3:2)",
+        preset_m43: "Micro Four Thirds (17.3 x 13.0 mm, 4:3)",
+        preset_super35: "Super 35 (24.89 x 18.66 mm, 4:3)",
+        preset_imax: "IMAX Film Frame (70.41 x 52.63 mm, 4:3)",
+        preset_one_fourth: "1/4\" Sensor (3.6 x 2.7 mm, 4:3)",
+        preset_one_third_six: "1/3.6\" Nokia Lumia 720 (4.0 x 3.0 mm, 4:3)",
+        preset_one_third_two: "1/3.2\" iPhone 5 (4.54 x 3.42 mm, 4:3)",
+        preset_large_8x10: "Large-format 8x10 inch (254.0 x 203.0 mm, 5:4)"
+    },
+    en: {
+        app_title: "HFOV & VFOV 3D Visual Calculator",
+        subtitle: "Field of View Calculator & Visualizer",
+        credits: "By Sandro Benigno (EvilPlaymobil)",
+        tutorial: "tutorial",
+        tutorial_pre: "Understand the concept in the ",
+        tutorial_post: "!",
+        
+        sensor_title: "Camera Sensor",
+        sensor_preset: "Sensor Preset",
+        sensor_width: "Width (mm)",
+        sensor_height: "Height (mm)",
+        sensor_custom: "Custom...",
+        sensor_diag: "Diagonal: ",
+        sensor_aspect: "Aspect: ",
+        
+        lens_title: "Lens Parameters",
+        lens_focal: "Focal Length (mm)",
+        lens_type: "Focal Length Type",
+        lens_real: "Real Physical",
+        lens_equiv: "35mm Equiv.",
+        crop_diag: "Diagonal Crop Factor: ",
+        crop_horiz: "Horizontal Crop Factor: ",
+        
+        cam_title: "Camera Position (m)",
+        cam_x: "X (Lat.)",
+        cam_y: "Y (Len.)",
+        cam_z: "Z (Height)",
+        cam_orientation: "Orientation (Degrees)",
+        cam_yaw: "Pan / Yaw (Pan)",
+        cam_pitch: "Tilt / Pitch (Tilt)",
+        cam_roll: "Roll (Roll)",
+        
+        space_title: "Space Dimensions (m)",
+        space_w: "Width (X)",
+        space_l: "Length (Y)",
+        space_h: "Height (Z)",
+        
+        target_title: "Focus & Target Distance",
+        target_dist: "Target Distance (D) in meters",
+        
+        footer_text: "Created with ",
+        footer_post: " for Filmmakers and Engineers",
+        
+        btn_reset: " Reset View",
+        btn_grid: " Grid",
+        
+        card_hfov_desc: "Horizontal Field of View",
+        card_vfov_desc: "Vertical Field of View",
+        card_hfw_title: "HFW (Field Width)",
+        card_vfw_title: "VFW (Field Height)",
+        card_framing_at: "Framing at ",
+        card_m: "m",
+        
+        preset_35mm: "35mm Film Full-Frame (36.0 x 24.0 mm, 3:2)",
+        preset_apsc_canon: "APS-C Canon (22.3 x 14.9 mm, 3:2)",
+        preset_apsc_sony: "APS-C Sony/Nikon/Fuji (23.5 x 15.6 mm, 3:2)",
+        preset_m43: "Micro Four Thirds (17.3 x 13.0 mm, 4:3)",
+        preset_super35: "Super 35 (24.89 x 18.66 mm, 4:3)",
+        preset_imax: "IMAX Film Frame (70.41 x 52.63 mm, 4:3)",
+        preset_one_fourth: "1/4\" Sensor (3.6 x 2.7 mm, 4:3)",
+        preset_one_third_six: "1/3.6\" Nokia Lumia 720 (4.0 x 3.0 mm, 4:3)",
+        preset_one_third_two: "1/3.2\" iPhone 5 (4.54 x 3.42 mm, 4:3)",
+        preset_large_8x10: "Large-format 8x10 inch (254.0 x 203.0 mm, 5:4)"
+    }
+};
+
+let currentLang = localStorage.getItem('hfov_calc_lang') || 'pt';
+
+function setLanguage(lang) {
+    currentLang = lang;
+    localStorage.setItem('hfov_calc_lang', lang);
+    
+    // Translate standard data-i18n elements
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (TRANSLATIONS[lang][key]) {
+            if (el.tagName === 'TITLE') {
+                document.title = TRANSLATIONS[lang][key];
+            } else {
+                const icon = el.querySelector('i[data-lucide], svg');
+                if (icon) {
+                    Array.from(el.childNodes).forEach(node => {
+                        if (node.nodeType === Node.TEXT_NODE) {
+                            node.remove();
+                        }
+                    });
+                    el.appendChild(document.createTextNode(TRANSLATIONS[lang][key]));
+                } else {
+                    el.textContent = TRANSLATIONS[lang][key];
+                }
+            }
+        }
+    });
+
+    // Update active class in language selector buttons
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        if (btn.getAttribute('data-lang') === lang) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    });
+
+    // Trigger recalculation so any dynamic labels update
+    updateCalculations();
+}
+
 // Initialize App
 function init() {
     // Initialize Lucide Icons
@@ -74,8 +249,8 @@ function init() {
     // Event Listeners
     setupEventListeners();
 
-    // Initial calculation & render update
-    updateCalculations();
+    // Initial language setup (this calls updateCalculations() internally)
+    setLanguage(currentLang);
 
     // Start render loop
     animate();
@@ -588,6 +763,14 @@ function setupEventListeners() {
             elBtnToggleGrid.classList.remove('active');
         }
         updateRoom3D();
+    });
+
+    // Language Switcher
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const lang = e.target.getAttribute('data-lang');
+            setLanguage(lang);
+        });
     });
 }
 

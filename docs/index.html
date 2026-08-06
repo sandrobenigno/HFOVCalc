@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HFOV & VFOV 3D Visual Calculator</title>
+    <title data-i18n="app_title">HFOV & VFOV 3D Visual Calculator</title>
     <meta name="description" content="Calculadora tridimensional interativa de campo de visão (HFOV, VFOV e HFW) para posicionamento de câmeras no espaço.">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,17 +17,23 @@
     <div class="app-container">
         <!-- Sidebar Controls -->
         <aside class="sidebar">
-            <header class="sidebar-header">
+            <header class="sidebar-header" style="position: relative;">
                 <div class="logo">
                     <i data-lucide="aperture" class="logo-icon"></i>
                     <h1>HFOV<span>Calc 3D</span></h1>
                 </div>
-                <p class="subtitle">Calculadora e Visualizador de Campo de Visão</p>
-                <div class="credits" style="font-size: 11px; color: var(--text-muted); margin-top: 6px; font-weight: 500;">
+                <!-- Language Selector absolute positioned in the header -->
+                <div class="lang-selector">
+                    <button class="lang-btn active" data-lang="pt">PT</button>
+                    <button class="lang-btn" data-lang="en">EN</button>
+                </div>
+                
+                <p class="subtitle" data-i18n="subtitle">Calculadora e Visualizador de Campo de Visão</p>
+                <div class="credits" data-i18n="credits" style="font-size: 11px; color: var(--text-muted); margin-top: 6px; font-weight: 500;">
                     By Sandro Benigno (EvilPlaymobil)
                 </div>
                 <div class="tutorial-link" style="font-size: 11px; color: var(--text-secondary); margin-top: 4px;">
-                    Entenda o conceito no <a href="https://github.com/sandrobenigno/HFOVCalc#readme" target="_blank" style="color: var(--accent-hfov); text-decoration: underline; font-weight: 600; transition: color 0.2s;">tutorial</a>!
+                    <span data-i18n="tutorial_pre">Entenda o conceito no </span><a href="https://github.com/sandrobenigno/HFOVCalc#readme" target="_blank" data-i18n="tutorial" style="color: var(--accent-hfov); text-decoration: underline; font-weight: 600; transition: color 0.2s;">tutorial</a><span data-i18n="tutorial_post">!</span>
                 </div>
             </header>
 
@@ -36,40 +42,40 @@
                 <section class="control-group">
                     <div class="group-title">
                         <i data-lucide="camera"></i>
-                        <h2>Sensor da Câmera</h2>
+                        <h2 data-i18n="sensor_title">Sensor da Câmera</h2>
                     </div>
                     
                     <div class="input-field">
-                        <label for="sensor-preset">Preset do Sensor</label>
+                        <label for="sensor-preset" data-i18n="sensor_preset">Preset do Sensor</label>
                         <select id="sensor-preset">
-                            <option value="35mm" selected>35mm Film Full-Frame (36.0 x 24.0 mm, 3:2)</option>
-                            <option value="apsc-canon">APS-C Canon (22.3 x 14.9 mm, 3:2)</option>
-                            <option value="apsc-sony">APS-C Sony/Nikon/Fuji (23.5 x 15.6 mm, 3:2)</option>
-                            <option value="m43">Micro Four Thirds (17.3 x 13.0 mm, 4:3)</option>
-                            <option value="super35">Super 35 (24.89 x 18.66 mm, 4:3)</option>
-                            <option value="imax">IMAX Film Frame (70.41 x 52.63 mm, 4:3)</option>
-                            <option value="one-fourth">1/4" Sensor (3.6 x 2.7 mm, 4:3)</option>
-                            <option value="one-third-six">1/3.6" Nokia Lumia 720 (4.0 x 3.0 mm, 4:3)</option>
-                            <option value="one-third-two">1/3.2" iPhone 5 (4.54 x 3.42 mm, 4:3)</option>
-                            <option value="large-8x10">Large-format 8x10 inch (254.0 x 203.0 mm, 5:4)</option>
-                            <option value="custom">Customizado...</option>
+                            <option value="35mm" data-i18n="preset_35mm" selected>35mm Film Full-Frame (36.0 x 24.0 mm, 3:2)</option>
+                            <option value="apsc-canon" data-i18n="preset_apsc_canon">APS-C Canon (22.3 x 14.9 mm, 3:2)</option>
+                            <option value="apsc-sony" data-i18n="preset_apsc_sony">APS-C Sony/Nikon/Fuji (23.5 x 15.6 mm, 3:2)</option>
+                            <option value="m43" data-i18n="preset_m43">Micro Four Thirds (17.3 x 13.0 mm, 4:3)</option>
+                            <option value="super35" data-i18n="preset_super35">Super 35 (24.89 x 18.66 mm, 4:3)</option>
+                            <option value="imax" data-i18n="preset_imax">IMAX Film Frame (70.41 x 52.63 mm, 4:3)</option>
+                            <option value="one-fourth" data-i18n="preset_one_fourth">1/4" Sensor (3.6 x 2.7 mm, 4:3)</option>
+                            <option value="one-third-six" data-i18n="preset_one_third_six">1/3.6" Nokia Lumia 720 (4.0 x 3.0 mm, 4:3)</option>
+                            <option value="one-third-two" data-i18n="preset_one_third_two">1/3.2" iPhone 5 (4.54 x 3.42 mm, 4:3)</option>
+                            <option value="large-8x10" data-i18n="preset_large_8x10">Large-format 8x10 inch (254.0 x 203.0 mm, 5:4)</option>
+                            <option value="custom" data-i18n="sensor_custom">Customizado...</option>
                         </select>
                     </div>
 
                     <div class="grid-2-cols" id="custom-sensor-dims" style="display: none;">
                         <div class="input-field">
-                            <label for="sensor-width">Largura (mm)</label>
+                            <label for="sensor-width" data-i18n="sensor_width">Largura (mm)</label>
                             <input type="number" id="sensor-width" value="36.00" step="0.01" min="0.1">
                         </div>
                         <div class="input-field">
-                            <label for="sensor-height">Altura (mm)</label>
+                            <label for="sensor-height" data-i18n="sensor_height">Altura (mm)</label>
                             <input type="number" id="sensor-height" value="24.00" step="0.01" min="0.1">
                         </div>
                     </div>
 
                     <div class="stats-row mini-stats">
-                        <div>Diagonal: <span id="diag-val">43.27 mm</span></div>
-                        <div>Aspecto: <span id="aspect-val">3:2</span></div>
+                        <div><span data-i18n="sensor_diag">Diagonal: </span><span id="diag-val">43.27 mm</span></div>
+                        <div><span data-i18n="sensor_aspect">Aspecto: </span><span id="aspect-val">3:2</span></div>
                     </div>
                 </section>
 
@@ -77,11 +83,11 @@
                 <section class="control-group">
                     <div class="group-title">
                         <i data-lucide="focus"></i>
-                        <h2>Parâmetros da Lente</h2>
+                        <h2 data-i18n="lens_title">Parâmetros da Lente</h2>
                     </div>
 
                     <div class="input-field">
-                        <label for="focal-length">Distância Focal (mm)</label>
+                        <label for="focal-length" data-i18n="lens_focal">Distância Focal (mm)</label>
                         <div class="range-with-input">
                             <input type="range" id="focal-length-slider" min="4" max="200" value="50" step="1">
                             <input type="number" id="focal-length" value="50" min="1" max="1000" step="0.5">
@@ -89,19 +95,19 @@
                     </div>
 
                     <div class="input-field toggle-field">
-                        <label>Tipo de Distância Focal</label>
+                        <label data-i18n="lens_type">Tipo de Distância Focal</label>
                         <div class="segmented-control">
                             <input type="radio" id="focal-real" name="focal-type" value="real" checked>
-                            <label for="focal-real">Física Real</label>
+                            <label for="focal-real" data-i18n="lens_real">Física Real</label>
                             
                             <input type="radio" id="focal-equiv" name="focal-type" value="equivalent">
-                            <label for="focal-equiv">Equiv. 35mm</label>
+                            <label for="focal-equiv" data-i18n="lens_equiv">Equiv. 35mm</label>
                         </div>
                     </div>
                     
-                    <div class="stats-row mini-stats">
-                        <div>Fator de Corte Diagonal: <span id="crop-diag-val">1.00x</span></div>
-                        <div>Fator de Corte Horizontal: <span id="crop-horiz-val">1.00x</span></div>
+                    <div class="stats-row mini-stats" style="flex-direction: column; gap: 4px;">
+                        <div><span data-i18n="crop_diag">Fator de Corte Diagonal: </span><span id="crop-diag-val">1.00x</span></div>
+                        <div><span data-i18n="crop_horiz">Fator de Corte Horizontal: </span><span id="crop-horiz-val">1.00x</span></div>
                     </div>
                 </section>
 
@@ -109,40 +115,40 @@
                 <section class="control-group">
                     <div class="group-title">
                         <i data-lucide="move-3d"></i>
-                        <h2>Posicionamento da Câmera (m)</h2>
+                        <h2 data-i18n="cam_title">Posicionamento da Câmera (m)</h2>
                     </div>
                     <div class="grid-3-cols">
                         <div class="input-field">
-                            <label for="cam-x">X (Lat.)</label>
+                            <label for="cam-x" data-i18n="cam_x">X (Lat.)</label>
                             <input type="number" id="cam-x" value="0.0" step="0.1">
                         </div>
                         <div class="input-field">
-                            <label for="cam-y">Y (Comp.)</label>
+                            <label for="cam-y" data-i18n="cam_y">Y (Comp.)</label>
                             <input type="number" id="cam-y" value="1.0" step="0.1">
                         </div>
                         <div class="input-field">
-                            <label for="cam-z">Z (Alt.)</label>
+                            <label for="cam-z" data-i18n="cam_z">Z (Alt.)</label>
                             <input type="number" id="cam-z" value="1.7" step="0.1">
                         </div>
                     </div>
 
-                    <div class="group-subtitle">Orientação (Graus)</div>
+                    <div class="group-subtitle" data-i18n="cam_orientation">Orientação (Graus)</div>
                     <div class="input-field">
-                        <label for="cam-yaw">Pan / Yaw (Giro)</label>
+                        <label for="cam-yaw" data-i18n="cam_yaw">Pan / Yaw (Giro)</label>
                         <div class="range-with-input">
                             <input type="range" id="cam-yaw-slider" min="-180" max="180" value="0" step="1">
                             <input type="number" id="cam-yaw" value="0" min="-180" max="180" step="1">
                         </div>
                     </div>
                     <div class="input-field">
-                        <label for="cam-pitch">Tilt / Pitch (Inclinação)</label>
+                        <label for="cam-pitch" data-i18n="cam_pitch">Tilt / Pitch (Inclinação)</label>
                         <div class="range-with-input">
                             <input type="range" id="cam-pitch-slider" min="-90" max="90" value="0" step="1">
                             <input type="number" id="cam-pitch" value="0" min="-90" max="90" step="1">
                         </div>
                     </div>
                     <div class="input-field">
-                        <label for="cam-roll">Roll (Rotação)</label>
+                        <label for="cam-roll" data-i18n="cam_roll">Roll (Rotação)</label>
                         <div class="range-with-input">
                             <input type="range" id="cam-roll-slider" min="-180" max="180" value="0" step="1">
                             <input type="number" id="cam-roll" value="0" min="-180" max="180" step="1">
@@ -154,19 +160,19 @@
                 <section class="control-group">
                     <div class="group-title">
                         <i data-lucide="layout"></i>
-                        <h2>Dimensões do Espaço (m)</h2>
+                        <h2 data-i18n="space_title">Dimensões do Espaço (m)</h2>
                     </div>
                     <div class="grid-3-cols">
                         <div class="input-field">
-                            <label for="room-width">Larg. (X)</label>
+                            <label for="room-width" data-i18n="space_w">Larg. (X)</label>
                             <input type="number" id="room-width" value="6.0" min="1.0" step="0.5">
                         </div>
                         <div class="input-field">
-                            <label for="room-length">Comp. (Y)</label>
+                            <label for="room-length" data-i18n="space_l">Comp. (Y)</label>
                             <input type="number" id="room-length" value="8.0" min="1.0" step="0.5">
                         </div>
                         <div class="input-field">
-                            <label for="room-height">Alt. (Z)</label>
+                            <label for="room-height" data-i18n="space_h">Alt. (Z)</label>
                             <input type="number" id="room-height" value="3.0" min="1.0" step="0.5">
                         </div>
                     </div>
@@ -176,10 +182,10 @@
                 <section class="control-group">
                     <div class="group-title">
                         <i data-lucide="target"></i>
-                        <h2>Foco & Distância do Alvo</h2>
+                        <h2 data-i18n="target_title">Foco & Distância do Alvo</h2>
                     </div>
                     <div class="input-field">
-                        <label for="target-dist">Distância do Alvo (D) em metros</label>
+                        <label for="target-dist" data-i18n="target_dist">Distância do Alvo (D) em metros</label>
                         <div class="range-with-input">
                             <input type="range" id="target-dist-slider" min="0.5" max="25" value="4" step="0.1">
                             <input type="number" id="target-dist" value="4.0" min="0.1" max="100" step="0.1">
@@ -189,7 +195,7 @@
             </div>
             
             <footer class="sidebar-footer">
-                <p>Criado com <i data-lucide="heart" class="heart-icon"></i> para Cineastas e Engenheiros</p>
+                <p><span data-i18n="footer_text">Criado com </span><i data-lucide="heart" class="heart-icon"></i><span data-i18n="footer_post"> para Cineastas e Engenheiros</span></p>
             </footer>
         </aside>
 
@@ -201,8 +207,8 @@
                 
                 <!-- 3D Controls HUD Overlay -->
                 <div class="canvas-hud-controls">
-                    <button id="btn-reset-view" title="Resetar Câmera 3D"><i data-lucide="rotate-ccw"></i> Resetar Vista</button>
-                    <button id="btn-toggle-grid" title="Alternar Grelha da Sala" class="active"><i data-lucide="grid"></i> Grid</button>
+                    <button id="btn-reset-view" title="Resetar Câmera 3D"><i data-lucide="rotate-ccw"></i><span data-i18n="btn_reset"> Resetar Vista</span></button>
+                    <button id="btn-toggle-grid" title="Alternar Grelha da Sala" class="active"><i data-lucide="grid"></i><span data-i18n="btn_grid"> Grid</span></button>
                 </div>
             </div>
 
@@ -215,7 +221,7 @@
                     <div class="result-data">
                         <h3>HFOV</h3>
                         <div class="value" id="hfov-val">--°</div>
-                        <p class="description">Abertura Horizontal</p>
+                        <p class="description" data-i18n="card_hfov_desc">Abertura Horizontal</p>
                     </div>
                 </div>
 
@@ -226,7 +232,7 @@
                     <div class="result-data">
                         <h3>VFOV</h3>
                         <div class="value" id="vfov-val">--°</div>
-                        <p class="description">Abertura Vertical</p>
+                        <p class="description" data-i18n="card_vfov_desc">Abertura Vertical</p>
                     </div>
                 </div>
 
@@ -235,9 +241,9 @@
                         <i data-lucide="ruler"></i>
                     </div>
                     <div class="result-data">
-                        <h3>HFW (Largura da Cena)</h3>
+                        <h3 data-i18n="card_hfw_title">HFW (Largura da Cena)</h3>
                         <div class="value" id="hfw-val">-- m</div>
-                        <p class="description">Enquadramento a <span class="target-d-lbl">4</span>m</p>
+                        <p class="description"><span data-i18n="card_framing_at">Enquadramento a </span><span class="target-d-lbl">4</span><span data-i18n="card_m">m</span></p>
                     </div>
                 </div>
 
@@ -246,9 +252,9 @@
                         <i data-lucide="ruler" style="transform: rotate(90deg);"></i>
                     </div>
                     <div class="result-data">
-                        <h3>VFW (Altura da Cena)</h3>
+                        <h3 data-i18n="card_vfw_title">VFW (Altura da Cena)</h3>
                         <div class="value" id="vfw-val">-- m</div>
-                        <p class="description">Enquadramento a <span class="target-d-lbl">4</span>m</p>
+                        <p class="description"><span data-i18n="card_framing_at">Enquadramento a </span><span class="target-d-lbl">4</span><span data-i18n="card_m">m</span></p>
                     </div>
                 </div>
             </section>
