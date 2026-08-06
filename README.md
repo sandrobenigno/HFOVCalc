@@ -1,14 +1,18 @@
 # HFOVCalc
 
+## Sensor, Ângulo e Enquadramento Matemático
+
+![HFOV](img/HFOV.jpg)
+
 Você já deve ter ouvido fotógrafos e filmakers dizendo frases como: "Coloca uma 35mm aqui" ou "Essa 24mm no full frame equivale a uma 16mm no Super 35".
 
 Mas você já parou para pensar de onde vem o número do ângulo que essa lente enxerga? E mais importante: quantos metros de largura você vai enquadrar a uma certa distância?
 
-🎬 Desvendando HFOV e HFW
+## 🎬 Desvendando HFOV e HFW
 
 Quando falamos sobre o ângulo de uma lente, estamos nos referindo genericamente ao seu AoV (Angle of View). Na prática, esse termo se divide em três: o diagonal (DFOV), o vertical (VFOV) e o horizontal (HFOV). Neste artigo, vou te mostrar de forma leve e geométrica como calcular o HFOV (Horizontal Field of View) e o HFW (Horizontal Field Width), usando o fator de corte ou a equivalência de 35mm. No final, você terá uma série de ferramentas para resolver questões em torno desses conceitos no set. Vamos lá! 🎬
 
-📐 Conceito 1: HFOV (Ângulo de Visão Horizontal)
+## 📐 Conceito 1: HFOV (Ângulo de Visão Horizontal)
 
 O HFOV (Horizontal Field of View) é o ângulo de visão que a lente enxerga especificamente na horizontal, medido em graus (°).
 
@@ -27,6 +31,8 @@ Imagine que você pegou um sensor menor e o esticou até que sua diagonal atingi
 Essa separação é necessária para os cálculos, pois, caso a distância focal dada for o equivalente a 35mm, você irá considerar a largura do sensor como 36mm. Por outro lado, se você tem o valor da distância focal real, irá valer-se da largura real do sensor.
 
 Agora que esclarecemos esses pontos, vamos pensar no triângulo retângulo que é formado dentro da câmera, entre a distância focal e metade do sensor. Isso é o que vemos na ilustração abaixo.
+
+![Triangulo Interno](img/Triangulo.jpg)
 
 Observe que:
 
@@ -89,13 +95,15 @@ Para facilitar, segue abaixo os valores mais comuns de aspecto, com o multiplica
 
 💡 Todas as fórmulas poderiam ser utilizadas também para calcular o ângulo de abertura vertical (VFOV). Bastaria substituir x por y, mantendo z. Onde y seria a metade da altura do sensor, em vez da largura. Mas atenção a um erro comum: você não deve calcular o ângulo vertical aplicando a proporção do aspecto direto no ângulo horizontal (por exemplo, achar que o VFOV é 3/4 do HFOV em um sensor 4:3). Como a relação envolve trigonometria, os ângulos não mudam de forma linear. Por outro lado, se você aplicar a proporção do aspecto diretamente no tamanho físico da cena capturada, a regra funciona perfeitamente! Em um sensor 4:3, a altura real da cena será exatamente 3/4 da largura. E é justamente esse cálculo da largura física da cena que nos leva ao nosso próximo conceito essencial para o set: o HFW.
 
-📏 Conceito 2: HFW (Largura Física do Campo de Visão Horizontal)
+## 📏 Conceito 2: HFW (Largura Física do Campo de Visão Horizontal)
 
 O HFW (Horizontal Field Width) é a largura física da cena capturada, medida em metros. É o que realmente importa no set quando você precisa saber: "Se eu colocar a câmera a 5 metros do ator, quantos metros de largura (HFW) vou enquadrar?"
 
 A Fórmula do HFW
 
 Para calcular o HFW, usamos um triângulo retângulo formado pela distância da câmera até o objeto e a metade da largura da cena:
+
+![Triangulo da Cena](img/Triangulo_HFOV.jpg)
 
 Onde:
 
@@ -120,7 +128,7 @@ $$
 \text{HFW} = 2 \times D \times \tan\left(\frac{\text{HFOV}}{2}\right)
 $$
 
-🎯 Exemplo Prático
+## 🎯 Exemplo Prático
 
 Situação: Você está com uma lente cuja equivalência em 35mm é de 50mm, e quer saber quantos metros de largura (HFW) vai enquadrar a 4 metros de distância.
 
@@ -144,11 +152,16 @@ $$
 
 Resultado: A 4 metros de distância, sua cena enquadrada terá uma largura física (HFW) de aproximadamente 2,87 metros.
 
-🧠 Resumo para Lembrar
 
-O Que Você Quer SaberFórmulaUnidadeÂngulo horizontal da lente (HFOV)2 × arctan( Metade da Largura do Sensor / Distância Focal )Graus (°)Largura física da cena (HFW)2 × D × tan( HFOV / 2 )Metros (m)
+## 🧠 Resumo para Lembrar
 
-📝 Tabela Básica de Sensores
+| O Que Você Quer Saber | Fórmula | Unidade |
+| --------------------- | ------- | ------- |
+| **Ângulo horizontal da lente** | (HFOV)2 × arctan( Metade da Largura do Sensor / Distância Focal ) | Graus (°) |
+| **Largura física da cena** | (HFW)2 × D × tan( HFOV / 2 ) | Metros (m) |
+
+
+## 📝 Tabela Básica de Sensores
 
 | Tipo | Largura (mm) | Altura (mm) | Aspecto | Fator de Corte |
 |------|--------------|-------------|---------|----------------|
