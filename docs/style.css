@@ -1,5 +1,10 @@
-/* Premium Stylesheet for HFOV/VFOV 3D Visual Calculator */
-/* Version: 1.1 - Mobile Layout Fix */
+/**
+ * FOVCalc 3D - Premium Stylesheet
+ * Author: Sandro Benigno (EvilPlaymobil)
+ * License: GNU General Public License v3.0 (GNU GPL v3)
+ * Copyright (c) 2026 Sandro Benigno
+ * Version: 1.1 - Mobile Layout Fix
+ */
 
 :root {
     --bg-base: #0a0e17;

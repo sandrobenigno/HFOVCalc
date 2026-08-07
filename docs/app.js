@@ -1,5 +1,10 @@
-// Core Application for HFOV/VFOV 3D Visual Calculator
-// Version: 1.1 - Mobile Layout Fix
+/**
+ * FOVCalc 3D - Core Application Logic
+ * Author: Sandro Benigno (EvilPlaymobil)
+ * License: GNU General Public License v3.0 (GNU GPL v3)
+ * Copyright (c) 2026 Sandro Benigno
+ * Version: 1.1 - Mobile Layout Fix
+ */
 
 // --- Constants & Config ---
 const REFERENCE_FF_DIAG = Math.sqrt(36 * 36 + 24 * 24); // ~43.2666 mm
