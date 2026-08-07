@@ -70,7 +70,7 @@ const TRANSLATIONS = {
         app_title: "HFOV & VFOV 3D Visual Calculator",
         subtitle: "Calculadora e Visualizador de Campo de Visão",
         credits: "By Sandro Benigno (EvilPlaymobil)",
-        tutorial: "tutorial",
+        tutorial: "artigo",
         tutorial_pre: "Entenda o conceito no ",
         tutorial_post: "!",
         
@@ -135,7 +135,7 @@ const TRANSLATIONS = {
         app_title: "HFOV & VFOV 3D Visual Calculator",
         subtitle: "Field of View Calculator & Visualizer",
         credits: "By Sandro Benigno (EvilPlaymobil)",
-        tutorial: "tutorial",
+        tutorial: "article",
         tutorial_pre: "Understand the concept in the ",
         tutorial_post: "!",
         
