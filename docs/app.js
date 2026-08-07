@@ -308,6 +308,25 @@ function init3D() {
     cameraGroup = new THREE.Group();
     scene.add(cameraGroup);
 
+    // Coordinate Axes Helper (X = Red, Y = Green, Z = Blue)
+    const axesHelper = new THREE.AxesHelper(1.2);
+    axesHelper.position.y = 0.001; // Evita Z-fighting com o grid do chão
+    scene.add(axesHelper);
+
+    // Labels for the Axes (X = Red, Y = Green, Z = Blue in Three.js coordinate lines)
+    // We swap Y and Z text labels to match user inputs: UI Y is Comprimento (depth), UI Z is Altura (height)
+    const xLabel = createTextSprite("X", "#ff4444");
+    xLabel.position.set(1.4, 0.05, 0);
+    scene.add(xLabel);
+
+    const yLabel = createTextSprite("Z", "#44ff44"); // Three.js Y line is vertical, represents user Z (Altura)
+    yLabel.position.set(0, 1.4, 0);
+    scene.add(yLabel);
+
+    const zLabel = createTextSprite("Y", "#3b82f6"); // Three.js Z line is depth, represents user Y (Comprimento)
+    zLabel.position.set(0, 0.05, 1.4);
+    scene.add(zLabel);
+
     // Add camera visual body (shifted back so the projection vertex is at the lens center)
     const camGeo = new THREE.BoxGeometry(0.2, 0.15, 0.3);
     const camMat = new THREE.MeshStandardMaterial({ color: 0xffb703, roughness: 0.2, metalness: 0.1 });
