@@ -1,127 +1,132 @@
-# FOVCalc
+# FOVCalc 🎥📐
+
+🇺🇸 English | 🇧🇷 [Português](README.pt-BR.md)
+
+[![Online Calculator](https://img.shields.io/badge/online-calculator-success.svg?style=flat-square)](https://sandrobenigno.github.io/FOVCalc/)
+[![Tech Stack](https://img.shields.io/badge/tech%20stack-HTML5%20%7C%20CSS3%20%7C%20Three.js-blue.svg?style=flat-square)](#)
+[![License: GPL v3](https://img.shields.io/badge/license-GNU%20GPL%20v3-blue.svg?style=flat-square)](LICENSE)
 
 ![3DCalc](img/3DCalc.jpg)
 
-##
+## 🚀 [Access the Online 3D Mathematical Framing Calculator](https://sandrobenigno.github.io/FOVCalc/)
 
-🚀 **[Acesse a Calculadora 3D Online de Enquadramento Matemático](https://sandrobenigno.github.io/FOVCalc/)**
+---
 
-##
-
-## Sensor, Ângulo e Enquadramento Matemático
+## Sensor, Angle, and Mathematical Framing
 
 ![HFOV](img/HFOV.jpg)
 
-Você já deve ter ouvido fotógrafos e filmakers dizendo frases como: "Coloca uma 35mm aqui" ou "Essa 24mm no full frame equivale a uma 16mm no Super 35".
+You have probably heard photographers and filmmakers say things like: "Put a 35mm here" or "This 24mm on full frame is equivalent to a 16mm on Super 35".
 
-Mas você já parou para pensar de onde vem o número do ângulo que essa lente enxerga? E mais importante: quantos metros de largura você vai enquadrar a uma certa distância?
+But have you ever stopped to think about where the angle that this lens sees comes from? And more importantly: how many meters of width will you frame at a certain distance?
 
-## 🎬 Desvendando HFOV e HFW
+---
 
-Quando falamos sobre o ângulo de uma lente, estamos nos referindo genericamente ao seu AoV (Angle of View). Na prática, esse termo se divide em três: o diagonal (DFOV), o vertical (VFOV) e o horizontal (HFOV). Neste artigo, vou te mostrar de forma leve e geométrica como calcular o HFOV (Horizontal Field of View) e o HFW (Horizontal Field Width), usando o fator de corte ou a equivalência de 35mm. No final, você terá uma série de ferramentas para resolver questões em torno desses conceitos no set. Vamos lá! 🎬
+## 🎬 Demystifying HFOV and HFW
 
-## 📐 Conceito 1: HFOV (Ângulo de Visão Horizontal)
+When we talk about the angle of a lens, we are generally referring to its AoV (*Angle of View*). In practice, this term is split into three: diagonal (DFOV), vertical (VFOV), and horizontal (HFOV). In this article, I will show you in a light and geometric way how to calculate HFOV (*Horizontal Field of View*) and HFW (*Horizontal Field Width*), using the crop factor or 35mm equivalence. At the end, you will have a series of tools to solve questions around these concepts on set. Let's go! 🎬
 
-O HFOV (Horizontal Field of View) é o ângulo de visão que a lente enxerga especificamente na horizontal, medido em graus (°).
+---
 
-A Fórmula do HFOV
+## 📐 Concept 1: HFOV (Horizontal Field of View)
 
-O primeiro ponto que precisamos ter em mente é a compreensão do que é distância focal. Ela é a distância entre o centro óptico da lente e a superfície do sensor.
-Porém, quando o sensor é menor que um fotograma de 35mm, ou seja, não é Full Frame, o fabricante fornece a distância focal de duas formas:
+HFOV (*Horizontal Field of View*) is the angle of view that the lens sees specifically on the horizontal axis, measured in degrees (°).
 
-Real (que é a distância física do centro focal da lente até a superfície do sensor);
+### The HFOV Formula
 
-Equivalente a 35mm (valor real multiplicado por um fator de equivalência).
+The first point we need to keep in mind is understanding what focal length is. It is the physical distance between the lens optical center and the sensor surface.
+However, when the sensor is smaller than a 35mm frame (i.e. it is not Full Frame), the manufacturer provides the focal length in two ways:
 
-Mas, afinal, o que é uma distância focal equivalente a 35 mm?
-Imagine que você pegou um sensor menor e o esticou até que sua diagonal atingisse 43,2666mm, que é a diagonal do clássico filme de 35 mm (36 x 24 mm e aspecto 3:2). Considere que a lente seria esticada junto com o sensor nesse processo. Se a lente cresce, a distância entre o centro óptico dela e o sensor também aumenta, não é mesmo? Pois é exatamente esse novo valor que chamamos de distância focal equivalente a 35 mm.
+1. **Real**: physical distance from the lens focal center to the sensor surface;
+2. **35mm Equivalent**: real value multiplied by an equivalence factor.
 
-Essa separação é necessária para os cálculos, pois, caso a distância focal dada for o equivalente a 35mm, você irá considerar a largura do sensor como 36mm. Por outro lado, se você tem o valor da distância focal real, irá valer-se da largura real do sensor.
+#### But after all, what is a focal length equivalent to 35 mm?
+Imagine that you took a smaller sensor and stretched it until its diagonal reached 43.2666mm, which is the diagonal of the classic 35mm film (36 x 24 mm and 3:2 aspect ratio). Consider that the lens would be stretched along with the sensor in this process. If the lens grows, the distance between its optical center and the sensor also increases. This new value is precisely what we call the 35mm equivalent focal length.
 
-Agora que esclarecemos esses pontos, vamos pensar no triângulo retângulo que é formado dentro da câmera, entre a distância focal e metade do sensor. Isso é o que vemos na ilustração abaixo.
+This separation is necessary for the calculations because if the focal length given is the 35mm equivalent, you will consider the sensor width as 36mm. On the other hand, if you have the real focal length value, you will use the real width of the sensor.
+
+Now that we clarified these points, let's think about the right triangle formed inside the camera between the focal length and half of the sensor. This is what we see in the illustration below.
 
 ![Triangulo Interno](img/Triangulo.jpg)
 
-Observe que:
+Observe that:
 
 $$
-{x} = \frac{\text{Largura do Sensor}}{2} \gets \text{ É o cateto oposto ao ângulo}\\
+{x} = \frac{\text{Sensor Width}}{2} \gets \text{ This is the opposite leg to the angle}\\
 $$
 $$
-{z} = \text{Distância Focal} \gets \text{É o cateto adjacente ao ângulo}
+{z} = \text{Focal Length} \gets \text{This is the adjacent leg to the angle}
 $$
 
-Como a tangente é o cateto oposto sobre o adjacente, o ângulo pode ser calculado pelo inverso da tangente:
+Since tangent is opposite over adjacent, the angle can be calculated by the inverse of the tangent:
 
 $$
 {\alpha} = \arctan \left( \frac{x}{z} \right)
 $$
 
-E sendo o HFOV o dobro desse ângulo, podemos calcular direto como:
+And since HFOV is twice this angle, we can calculate it directly as:
 
 $$
 \text{HFOV} = 2 \times \arctan\bigg( \frac{x}{z} \bigg)
 $$
 
-Essa é a forma geométrica mais direta e simples. Ela é a base para se calcular o ângulo, tanto para câmeras com lentes e sensores Full Frame quanto para lentes e sensores menores. Como já dissemos, basta usar valores coerentes para x e z , ou seja, ambos reais ou ambos equivalentes. É o que veremos em seguida, quando utilizamos o fator de corte para equilibrar os dois termos.
+This is the most direct and simple geometric form. It is the basis for calculating the angle for both Full Frame and smaller cameras. As mentioned, just use consistent values for $x$ and $z$ (both real or both equivalent). This is what we will see next, when we use the crop factor to balance both terms.
 
-Para calcular o HFOV a partir da equivalência de 35mm por fator de corte da câmera, usamos:
-
-$$
-{\text{HFOV}} = 2 \times \arctan\left( \frac{18}{\text{Distância Focal} \times \text{Fator de Corte}} \right)
-$$
-
-Onde:
-
-18 é o cateto oposto, com a metade da Largura de um Sensor de 36mm (Full Frame).
-
-Fator de Corte = número que indica quantas vezes seu sensor é menor que o Full Frame.
-
-A Distância Focal multiplicada pelo Fator de Corte é o cateto adjacente. A multiplicação transforma a distância focal em seu valor equivalente  em 35mm (ou aproximado, para aspectos diferentes de 3:2). 
-
-Dizemos que em alguns casos o cálculo pode ser apenas aproximado, porque o fator de corte fornecido pelo fabricante é dado pela diferença diagonal entre o sensor real e o sensor de referência (36x24mm e aspecto 3:2). Para valores precisos, naqueles casos em que o aspecto do sensor real é diferente de 3:2, precisaríamos primeiro calcular o fator de corte horizontal para, depois, utilizá-lo na fórmula acima.
-
-Reforçando, isso ocorre porque o fator de corte horizontal muda quando o aspecto do sensor não é 3:2 como são os de 35mm. Ou seja, os fatores de corte diagonal, horizontal ou mesmo o vertical serão diferentes entre si, quando o aspecto é 4:3, 16:9, etc. Quando esse for o caso, e você quiser trabalhar com precisão, calcule primeiro o fator de corte horizontal (CH), em função do fator diagonal dado (CD) e do aspecto do sensor dado (a:b), aplicando os seus respectivos valores na fórmula abaixo:
+To calculate the HFOV from 35mm equivalence by camera crop factor, we use:
 
 $$
-C_H = C_D \times \text{Multiplicador}\\
-$$
-$$
-C_H = C_D \times \left(\frac{36}{43,266} \times \frac{\sqrt{a^2 + b^2}}{a}\right)
+{\text{HFOV}} = 2 \times \arctan\left( \frac{18}{\text{Focal Length} \times \text{Crop Factor}} \right)
 $$
 
-Após calculado o Fator de Corte Horizontal, pode inseri-lo na fórmula original do HFOV. Todos os dados estarão geometricamente precisos.
+Where:
+* **18** is the opposite leg, representing half of a 36mm Full Frame sensor width.
+* **Crop Factor** is the number indicating how many times your sensor is smaller than Full Frame.
+* The **Focal Length** multiplied by the Crop Factor is the adjacent leg (equivalent focal length).
 
-Para facilitar, segue abaixo os valores mais comuns de aspecto, com o multiplicador já calculado, para obter o Fator de Corte Horizontal:
+We say that in some cases the calculation might only be an approximation, because the crop factor provided by the manufacturer is given by the diagonal difference. For precise values when the sensor aspect ratio is different from 3:2, we would need to calculate the horizontal crop factor first:
 
-| Aspecto | Multiplicador | Observação |
-|---------|---------------|------------|
-| 3:2     | 1.0000        | não precisa corrigir |
-| 4:3     | 1.0399        |            |
-| 16:9    | 0.9545        |            |
+$$
+C_H = C_D \times \text{Multiplier}\\
+$$
+$$
+C_H = C_D \times \left(\frac{36}{43.266} \times \frac{\sqrt{a^2 + b^2}}{a}\right)
+$$
 
+After calculating the Horizontal Crop Factor, you can insert it into the original HFOV formula. All calculations will be geometrically precise.
 
-💡 Todas as fórmulas poderiam ser utilizadas também para calcular o ângulo de abertura vertical (VFOV). Bastaria substituir x por y, mantendo z. Onde y seria a metade da altura do sensor, em vez da largura. Mas atenção a um erro comum: você não deve calcular o ângulo vertical aplicando a proporção do aspecto direto no ângulo horizontal (por exemplo, achar que o VFOV é 3/4 do HFOV em um sensor 4:3). Como a relação envolve trigonometria, os ângulos não mudam de forma linear. Por outro lado, se você aplicar a proporção do aspecto diretamente no tamanho físico da cena capturada, a regra funciona perfeitamente! Em um sensor 4:3, a altura real da cena será exatamente 3/4 da largura. E é justamente esse cálculo da largura física da cena que nos leva ao nosso próximo conceito essencial para o set: o HFW.
+For convenience, here are the most common aspect ratios, with the multiplier already calculated, to obtain the Horizontal Crop Factor:
 
-## 📏 Conceito 2: HFW (Largura Física do Campo de Visão Horizontal)
+| Aspect Ratio | Multiplier | Observation |
+|--------------|------------|-------------|
+| 3:2          | 1.0000     | no correction needed |
+| 4:3          | 1.0399     |             |
+| 16:9         | 0.9545     |             |
 
-O HFW (Horizontal Field Width) é a largura física da cena capturada, medida em metros. É o que realmente importa no set quando você precisa saber: "Se eu colocar a câmera a 5 metros do ator, quantos metros de largura (HFW) vou enquadrar?"
+> [!NOTE]
+> All formulas could also be used to calculate the vertical opening angle (VFOV). Just replace $x$ with $y$, keeping $z$, where $y$ would be half the sensor height instead of width.
+> 
+> But beware of a common mistake: do not calculate the vertical angle by applying the aspect ratio proportion directly to the horizontal angle (e.g. thinking VFOV is 3/4 of HFOV on a 4:3 sensor). Since the relationship involves trigonometry, the angles do not change linearly.
+> 
+> On the other hand, if you apply the aspect ratio proportion directly to the physical size of the captured scene, it works perfectly! In a 4:3 sensor, the physical height of the scene will be exactly 3/4 of the width. And this physical width calculation brings us to the next essential concept: HFW.
 
-A Fórmula do HFW
+---
 
-Para calcular o HFW, usamos um triângulo retângulo formado pela distância da câmera até o objeto e a metade da largura da cena:
+## 📏 Concept 2: HFW (Horizontal Field Width)
+
+HFW (*Horizontal Field Width*) is the physical width of the captured scene, measured in meters. This is what really matters on set when you need to know: *"If I place the camera 5 meters from the actor, how many meters of width (HFW) will I frame?"*
+
+### The HFW Formula
+
+To calculate the HFW, we use a right triangle formed by the distance from the camera to the object and half the width of the scene:
 
 ![Triangulo da Cena](img/Triangulo_HFOV.jpg)
 
-Onde:
+Where:
+* **Angle**: Half of the HFOV ($HFOV/2$).
+* **Adjacent Leg**: The distance ($D$) from the camera to the object (from the lens optical center).
+* **Opposite Leg**: Half of the scene width ($HFW/2$).
 
-Ângulo: A metade do HFOV (HFOV/2).
-
-Cateto Adjacente ao ângulo: A distância (D) da câmera até o objeto (a partir do centro óptico da lente).
-
-Cateto Oposto ao ângulo: A metade da largura da cena (HFW/2).
-
-Usando a definição da tangente:
+Using the tangent definition:
 
 $$
 \tan\left(\frac{\text{HFOV}}{2}\right) = \frac{\text{HFW}/2}{D}
@@ -136,43 +141,47 @@ $$
 \text{HFW} = 2 \times D \times \tan\left(\frac{\text{HFOV}}{2}\right)
 $$
 
-## 🎯 Exemplo Prático
+---
 
-Situação: Você está com uma lente cuja equivalência em 35mm é de 50mm, e quer saber quantos metros de largura (HFW) vai enquadrar a 4 metros de distância.
+## 🎯 Practical Example
 
-Passo 1: Vamos calcular o HFOV. Se o valor de distância focal dado é de 50mm em equivalência a 35mm, a conversão para valores em Full Frame já foi feita. Portanto, a largura do sensor será 36mm. Pois, lembre-se: um filme de 35mm tem a largura do fotograma igual a 36mm. Nós utilizamos a metade do sensor para o cálculo, ou seja, 18mm. Assim, teremos:
+**Situation**: You have a lens with a 35mm equivalent of 50mm, and you want to know the HFW at 4 meters distance.
 
-$$
-\text{HFOV} = 2 \times \arctan\left( \frac{18}{50} \right) \to 2 \times 19,79° = 39,6°
-$$
-
-Passo 2: Para o cálculo do HFW, tomaremos a metade do HFOV (exatamente o semiângulo 19,7° encontrado no meio do cálculo anterior):
+* **Step 1: Calculate the HFOV**: Since the focal length value given is 50mm in 35mm equivalence, the conversion to Full Frame values is already done. Therefore, the sensor width will be 36mm. Remember: 35mm film has a frame width of 36mm. We use half the sensor for the calculation, which is 18mm. Thus, we have:
 
 $$
-\frac{39,6°}{2} = 19,79°
+\text{HFOV} = 2 \times \arctan\left( \frac{18}{50} \right) \to 2 \times 19.79° = 39.6°
 $$
 
-Passo 3: Calculamos a largura (HFW) usando a tangente desse ângulo e a distância de 4 metros:
+* **Step 2: Get the semi-angle**: We take half of the HFOV (exactly the 19.79° semi-angle found during the previous calculation):
 
 $$
-\text{HFW} = 2 \times 4 \times \tan(19,79°) \to 8 \times 0,36 = 2,87 \text{ metros}
+\frac{39.6°}{2} = 19.79°
 $$
 
-Resultado: A 4 metros de distância, sua cena enquadrada terá uma largura física (HFW) de aproximadamente 2,87 metros.
+* **Step 3: Calculate the width (HFW)**: We calculate the width using the tangent of this angle and the distance of 4 meters:
 
+$$
+\text{HFW} = 2 \times 4 \times \tan(19.79°) \to 8 \times 0.36 = 2.87 \text{ meters}
+$$
 
-## 🧠 Resumo para Lembrar
+**Result**: At 4 meters distance, your framed scene will have a physical width (HFW) of approximately **2.87 meters**.
 
-| O Que Você Quer Saber | Fórmula | Unidade |
+---
+
+## 🧠 Summary to Remember
+
+| What You Want to Know | Formula | Unit |
 | --------------------- | ------- | ------- |
-| **Ângulo horizontal da lente** | (HFOV)2 × arctan( Metade da Largura do Sensor / Distância Focal ) | Graus (°) |
-| **Largura física da cena** | (HFW)2 × D × tan( HFOV / 2 ) | Metros (m) |
+| **Lens horizontal angle (HFOV)** | $2 \times \arctan( \text{Half of Sensor Width} / \text{Focal Length} )$ | Degrees (°) |
+| **Physical width of the scene (HFW)** | $2 \times D \times \tan( \text{HFOV} / 2 )$ | Meters (m) |
 
+---
 
-## 📝 Tabela Básica de Sensores
+## 📝 Basic Sensor Table
 
-| Tipo | Largura (mm) | Altura (mm) | Aspecto | Fator de Corte |
-|------|--------------|-------------|---------|----------------|
+| Type | Width (mm) | Height (mm) | Aspect Ratio | Crop Factor |
+|------|------------|-------------|--------------|-------------|
 | 1/10" | 1.28 | 0.96 | 4:3 | 27.04 |
 | 1/8" (Sony DCR-SR68) | 1.60 | 1.20 | 4:3 | 21.65 |
 | 1/6" (Panasonic SDR-H20) | 2.40 | 1.80 | 4:3 | 14.14 |
