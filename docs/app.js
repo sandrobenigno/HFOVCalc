@@ -519,7 +519,8 @@ function updateCone3D(hfovRad, vfovRad, distance) {
         color: 0x00f2fe,
         transparent: true,
         opacity: 0.15,
-        side: THREE.DoubleSide
+        side: THREE.DoubleSide,
+        depthWrite: false
     });
 
     frustumMesh = new THREE.Mesh(geometry, frustumMat);
@@ -559,7 +560,8 @@ function updateCone3D(hfovRad, vfovRad, distance) {
             color: 0x00f2fe, // Azul claro / ciano
             transparent: true,
             opacity: 0.25,
-            side: THREE.DoubleSide
+            side: THREE.DoubleSide,
+            depthWrite: false
         })
     );
     cameraGroup.add(targetPlaneMesh);
@@ -598,7 +600,8 @@ function updateCone3D(hfovRad, vfovRad, distance) {
     const hDimMat = new THREE.LineBasicMaterial({
         color: 0x00f5a0,
         transparent: true,
-        opacity: 0.8
+        opacity: 0.8,
+        depthTest: false
     });
     const hDimLineMesh = new THREE.LineSegments(hDimGeo, hDimMat);
     dimensionLines.add(hDimLineMesh);
@@ -630,7 +633,8 @@ function updateCone3D(hfovRad, vfovRad, distance) {
     const vDimMat = new THREE.LineBasicMaterial({
         color: 0xffaf40,
         transparent: true,
-        opacity: 0.8
+        opacity: 0.8,
+        depthTest: false
     });
     const vDimLineMesh = new THREE.LineSegments(vDimGeo, vDimMat);
     dimensionLines.add(vDimLineMesh);
@@ -853,7 +857,7 @@ function createTextSprite(text, colorStr = '#ffffff') {
     ctx.fillText(text, canvas.width / 2, canvas.height / 2);
     
     const texture = new THREE.CanvasTexture(canvas);
-    const spriteMaterial = new THREE.SpriteMaterial({ map: texture, transparent: true, depthWrite: false });
+    const spriteMaterial = new THREE.SpriteMaterial({ map: texture, transparent: true, depthWrite: false, depthTest: false });
     const sprite = new THREE.Sprite(spriteMaterial);
     sprite.scale.set(1.4, 0.35, 1);
     return sprite;
