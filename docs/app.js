@@ -331,8 +331,8 @@ function reset3DCamera() {
     const roomL = parseFloat(elRoomLength.value);
     const roomH = parseFloat(elRoomHeight.value);
 
-    // Position viewing camera to look at the center of the room
-    camera.position.set(roomW * 1.2, roomH * 1.5, roomL * 1.2);
+    // Position viewing camera to look at the center of the room (rotated 180 degrees to match user perspective)
+    camera.position.set(-roomW * 1.2, roomH * 1.5, -roomL * 0.2);
     controls.target.set(0, roomH / 3, roomL / 2);
     controls.update();
 }
