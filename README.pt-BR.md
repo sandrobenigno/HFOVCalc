@@ -24,7 +24,11 @@ Mas você já parou para pensar de onde vem o número do ângulo que essa lente 
 
 ## 🎬 Desvendando HFOV e HFW
 
-Quando falamos sobre o ângulo de uma lente, estamos nos referindo genericamente ao seu AoV (*Angle of View*). Na prática, esse termo se divide em três: o diagonal (DFOV), o vertical (VFOV) e o horizontal (HFOV). Neste artigo, vou te mostrar de forma leve e geométrica como calcular o HFOV (*Horizontal Field of View*) e o HFW (*Horizontal Field Width*), usando o fator de corte ou a equivalência de 35mm. No final, você terá uma série de ferramentas para resolver questões em torno desses conceitos no set. Vamos lá! 🎬
+Quando falamos sobre o campo de visão de uma lente, a terminologia pode ser um pouco confusa. Diferentes áreas — fotografia, óptica, visão computacional e literatura técnico-científica — nem sempre usam **FOV** e **AoV** da mesma maneira. Em alguns contextos, FOV é usado para a medida angular; em outros, para a dimensão linear da área enquadrada.
+
+Para manter as coisas claras, neste artigo vou distinguir explicitamente as duas grandezas: **HFOV (Horizontal Field of View)** será usado para o **ângulo de visão horizontal**, enquanto **HFW (Horizontal Field Width)** será usado para a **largura horizontal do campo de visão**.
+
+Vou mostrar, de forma leve e geométrica, como calcular o **HFOV** e o **HFW**, usando o fator de corte ou a equivalência de 35 mm. No final, você terá uma série de ferramentas para resolver questões em torno desses conceitos no set. Vamos lá! 🎬
 
 ---
 

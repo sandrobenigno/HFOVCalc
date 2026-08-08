@@ -24,7 +24,11 @@ But have you ever stopped to think about where the angle that this lens sees com
 
 ## 🎬 Demystifying HFOV and HFW
 
-When we talk about the angle of a lens, we are generally referring to its AoV (*Angle of View*). In practice, this term is split into three: diagonal (DFOV), vertical (VFOV), and horizontal (HFOV). In this article, I will show you in a light and geometric way how to calculate HFOV (*Horizontal Field of View*) and HFW (*Horizontal Field Width*), using the crop factor or 35mm equivalence. At the end, you will have a series of tools to solve questions around these concepts on set. Let's go! 🎬
+When we talk about the field of view of a lens, the terminology can be a bit confusing. Different fields — photography, optics, computer vision, and technical-scientific literature — do not always use **FOV** and **AoV** in the same way. In some contexts, FOV is used for the angular measurement; in others, for the linear dimension of the framed area.
+
+To keep things clear, in this article I will explicitly distinguish between the two quantities: **HFOV (Horizontal Field of View)** will be used for the **horizontal angle of view**, while **HFW (Horizontal Field Width)** will be used for the **horizontal width of the field of view**.
+
+I will show you, in a light and geometric way, how to calculate **HFOV** and **HFW**, using the crop factor or 35mm equivalence. At the end, you will have a series of tools to solve questions around these concepts on set. Let's go! 🎬
 
 ---
 
